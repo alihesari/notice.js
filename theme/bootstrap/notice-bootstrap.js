@@ -1,5 +1,5 @@
 $.notice.addTheme({
-    themePath: "../dist/theme/bootstrap/",
+    themePath: "../theme/bootstrap/",
     themeName: "bootstrap",
     themeCss: "notice-bootstrap.css",
     noticePosition: "right",
@@ -20,9 +20,6 @@ $.notice.addTheme({
         },
         warning: {
             className: "alert-warning",
-            attributes:{
-                "data-x" : "xxx"
-            }
         },
         info: {
             className: "alert-info",
