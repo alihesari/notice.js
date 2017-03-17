@@ -1,0 +1,9 @@
+.noticejs .notice-header .notice-title{
+    float: right;
+}
+.noticejs .notice-close{
+    float: left;
+}
+.noticejs .notice-body{
+    direction: rtl;
+}

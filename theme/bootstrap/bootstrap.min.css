@@ -1,0 +1,2 @@
+
+.noticejs{position:fixed;width:25%}.noticejs .alert{display:table;padding:10px;margin-bottom:5px}.noticejs .notice-header{display:table;width:100%;padding-bottom:5px}.noticejs .notice-header .notice-title{font-weight:bold;float:left}.noticejs .notice-close{float:right;cursor:pointer}.noticejs .alert-danger .notice-header{border-bottom:1px solid #cf2424}.noticejs .alert-warning .notice-header{border-bottom:1px solid #8a6d3b}.noticejs .alert-info .notice-header{border-bottom:1px solid #31708f}.noticejs .alert-success .notice-header{border-bottom:1px solid #3c763d}

@@ -1,9 +1,8 @@
 $.notice.addTheme({
     themePath: "../theme/bootstrap/",
     themeName: "bootstrap",
-    themeCss: "notice-bootstrap.css",
-    noticePosition: "right",
-    noticeAlign: "right",
+    themeMinification: true,
+    isRtl: true,
     html: {
         container: "<div class=\"noticejs\"></div>",
         notice: "<div class=\"notice alert\"></div>",

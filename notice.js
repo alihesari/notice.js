@@ -1,9 +1,10 @@
 (function ($) {
     /* Default plugin options */
     var noticeOptions = {
-        themePath: "theme",
-        themeName: "bootstrap",
-        themeCss: "notice-bootstrap.css",
+        themePath: "../theme/bootstrap/",
+        themeName: "DefaultTheme",
+        themeMinification: false,
+        isRtl: false,
         noticeClose: true,
         noticePosition: "topRight",
         defaultNoticePosition: {
@@ -80,11 +81,15 @@
         if (!def) {
             throw "Missing theme definition";
         }
-        if(!def.themeCss){
-            throw "Missing theme css file name";
+        if(!def.themeName){
+            throw "Missing theme name";
         }
         defaults(def);
-        addCss(noticeOptions.themePath+noticeOptions.themeCss);
+        var fileExt = (noticeOptions.themeMinification)? ".min.css" : ".css";
+        addCss(noticeOptions.themePath + noticeOptions.themeName + fileExt);
+        if(noticeOptions.isRtl){
+            addCss(noticeOptions.themePath + noticeOptions.themeName + "-rtl" + fileExt);
+        }
     };    
     
     $.notice = function(data,options){
