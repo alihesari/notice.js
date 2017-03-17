@@ -1,6 +1,7 @@
 .noticejs{
     position: fixed;
     width: 25%;
+    z-index: 1050;
 }
 .noticejs .alert{
     display: table;

@@ -2,7 +2,7 @@ $.notice.addTheme({
     themePath: "../theme/bootstrap/",
     themeName: "bootstrap",
     themeMinification: true,
-    isRtl: true,
+    isRtl: false,
     html: {
         container: "<div class=\"noticejs\"></div>",
         notice: "<div class=\"notice alert\"></div>",
@@ -19,6 +19,7 @@ $.notice.addTheme({
         },
         warning: {
             className: "alert-warning",
+            attributes:{}
         },
         info: {
             className: "alert-info",
