@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/noticejs.iml" filepath="$PROJECT_DIR$/.idea/noticejs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../noticejs2/.idea/noticejs2.iml" filepath="$PROJECT_DIR$/../noticejs2/.idea/noticejs2.iml" />
+    </modules>
+  </component>
+</project>
