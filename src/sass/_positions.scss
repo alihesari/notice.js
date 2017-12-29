@@ -1,0 +1,70 @@
+/*
+* Notice position
+|
+| Noticejs container
+| TopRight
+| TopLeft
+| TopCenter
+| MiddleRight
+| MiddleLeft
+| MiddleCenter
+| BottomRight
+| BottomLeft
+| BottomCenter
+*/
+.noticejs{
+  position: $position;
+  z-index: $z-index;
+  width: $width;
+}
+
+.noticejs-topRight {
+  top: 10px;
+  right: 10px;
+}
+
+.noticejs-topLeft {
+  top: 10px;
+  left: 10px;
+}
+
+.noticejs-topCenter {
+  top: 10px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.noticejs-middleRight {
+  right: 10px;
+  top: 50%;
+  transform: translate(0px, -50%);
+}
+
+.noticejs-middleLeft {
+  left: 10px;
+  top: 50%;
+  right: 10px;
+  transform: translate(0px, -50%);
+}
+
+.noticejs-middleCenter {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.noticejs-bottomRight {
+  bottom: 10px;
+  right: 10px;
+}
+
+.noticejs-bottomLeft {
+  bottom: 10px;
+  left: 10px;
+}
+
+.noticejs-bottomCenter {
+  bottom: 10px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}

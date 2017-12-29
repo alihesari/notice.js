@@ -1,0 +1,22 @@
+$width: 320px;
+$max-height-content: 200px;
+$max-height-item: 500px;
+$font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+$position: fixed;
+$z-index: 1050;
+
+// Info style
+$info-bg: #3ea2ff;
+$info-title-bg: #067cea;
+
+// Success style
+$success-bg: #64ce83;
+$success-title-bg: #3da95c;
+
+// Warning style
+$warning-bg: #ff7f48;
+$warning-title-bg: #f44e06;
+
+// Error style
+$error-bg: #e74c3c;
+$error-title-bg: #ba2c1d;
