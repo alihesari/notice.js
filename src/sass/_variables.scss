@@ -1,22 +1,39 @@
 $width: 320px;
 $max-height-content: 200px;
 $max-height-item: 500px;
-$font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+$font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 $position: fixed;
 $z-index: 1050;
+$item-margin: 0 0 10px 0;
+$item-padding: 10px;
+$border-radius: 3px;
 
-// Info style
-$info-bg: #3ea2ff;
-$info-title-bg: #067cea;
+$types: (
+  // Success style
+  'success': (
+    'bg': #64ce83,
+    'heading-bg': #3da95c,
+    'text-color': #fff
+  ),
 
-// Success style
-$success-bg: #64ce83;
-$success-title-bg: #3da95c;
+  // Info style
+  'info': (
+    'bg': #3ea2ff,
+    'heading-bg': #067cea,
+    'text-color': #fff
+  ),
 
-// Warning style
-$warning-bg: #ff7f48;
-$warning-title-bg: #f44e06;
+  // Warning style
+  'warning': (
+    'bg': #ff7f48,
+    'heading-bg': #f44e06,
+    'text-color': #fff
+  ),
 
-// Error style
-$error-bg: #e74c3c;
-$error-title-bg: #ba2c1d;
+  // Error style
+  'error': (
+    'bg': #e74c3c,
+    'heading-bg': #ba2c1d,
+    'text-color': #fff
+  )
+);

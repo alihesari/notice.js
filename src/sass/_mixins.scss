@@ -1,0 +1,32 @@
+/**
+* Fetch nested keys
+* @param {Map} $map - Map
+* @param {Arglist} $keys - Keys to fetch
+* @return {*}
+*/
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+
+  @return $map;
+}
+
+/**
+*
+*/
+@mixin noticejs-type($type) {
+  .#{$type} {
+    .heading {
+      background-color: map-deep-get($types, $type,'heading-bg');
+      color: map-deep-get($types, $type,'text-color');
+      padding: $item-padding;
+    }
+
+    .body {
+      background-color: map-deep-get($types, $type,'bg');
+      color: map-deep-get($types, $type,'text-color');
+      padding: $item-padding;
+    }
+  }
+}

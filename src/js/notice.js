@@ -12,8 +12,9 @@ let noticeJsBody = "";
 let options = {
   type: 'success',
   position: 'topRight',
-  close: true,
-  autoClose: true
+  closeButton: true,
+  autoClose: true,
+  closeTime: 10
 };
 
 /**
@@ -35,11 +36,11 @@ const createContainer = (position) => {
  */
 const createHeader = (title, options) => {
   let element = document.createElement('div');
-  element.setAttribute('class', 'noticejs-header');
+  element.setAttribute('class', 'heading');
   element.textContent = title;
-  if (options.close === true) {
+  if (options.closeButton === true) {
     let close = document.createElement('div');
-    close.setAttribute('class', 'noticejs-close');
+    close.setAttribute('class', 'close');
     close.innerHTML = '&times;';
     element.appendChild(close);
   }
@@ -51,22 +52,43 @@ const createHeader = (title, options) => {
  */
 const createBody = (content) => {
   let element = document.createElement('div');
-  element.setAttribute('class', 'noticejs-body');
-  element.textContent = content;
+  element.setAttribute('class', 'body');
+  element.innerHTML = content;
   return element;
 };
 
 /**
 * Append NoticeJs item
 */
-const appendNoticeJs = (header, body, position) => {
-  let target_class = '.noticejs-' + position;
+const appendNoticeJs = (header, body, options) => {
+  let target_class = '.noticejs-' + options.position;
   // Create NoticeJs item
   let noticeJsItem = document.createElement('div');
-  noticeJsItem.setAttribute('class','noticejs-item');
-  noticeJsItem.appendChild(header);
+  noticeJsItem.classList.add('item');
+  noticeJsItem.classList.add(options.type);
+  if(header) {
+    noticeJsItem.appendChild(header);
+  }
   noticeJsItem.appendChild(body);
   document.querySelector(target_class).appendChild(noticeJsItem);
+
+  // Close event click
+  let noticeItems =  document.querySelectorAll('.noticejs .item .close');
+  Array.from(noticeItems).forEach(item => {
+    if(typeof item !== 'undefined' && item !== null) {
+      item.addEventListener('click', function(event){
+        let parent = event.target.closest('div.noticejs');
+        // Remove the notice item
+        event.target.closest('div.item').remove();
+        // Remove the notice container if it does not have any item
+        if(parent !== null){
+          if(parent.getElementsByClassName('item').length === 0){
+            parent.remove();
+          }
+        }
+      });
+    }
+  });
 };
 
 const init = (data, settings) => {
@@ -76,7 +98,7 @@ const init = (data, settings) => {
   createContainer(options.position);
 
   // Create NoticeJs header
-  if (data.title !== 'undefined') {
+  if (data.title !== 'undefined' && data.title !== '') {
     noticeJsHeader = createHeader(data.title, options);
   }
 
@@ -85,8 +107,10 @@ const init = (data, settings) => {
   noticeJsBody = createBody(content);
 
   //Append NoticeJs
-  appendNoticeJs(noticeJsHeader, noticeJsBody, options.position);
+  appendNoticeJs(noticeJsHeader, noticeJsBody, options);
 };
+
+
 
 module.exports = {
   init

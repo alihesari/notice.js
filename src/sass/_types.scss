@@ -1,0 +1,31 @@
+.noticejs {
+  font-family: $font-family;
+
+  .item {
+    margin: $item-margin;
+    border-radius: $border-radius;
+    overflow: hidden;
+    .close {
+      float: right;
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 1px 0 #fff;
+      opacity: 1;
+    }
+    a {
+      color: #ffffff;
+      text-decoration: none;
+      border-bottom: 1px dashed #fff;
+      &:hover{
+        text-decoration: none;
+      }
+    }
+  }
+
+  @include noticejs-type('success');
+  @include noticejs-type('info');
+  @include noticejs-type('warning');
+  @include noticejs-type('error');
+}

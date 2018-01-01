@@ -114,11 +114,11 @@ var createContainer = function createContainer(position) {
  */
 var createHeader = function createHeader(title, options) {
   var element = document.createElement('div');
-  element.setAttribute('class', 'noticejs-header');
+  element.setAttribute('class', 'heading');
   element.textContent = title;
   if (options.close === true) {
     var close = document.createElement('div');
-    close.setAttribute('class', 'noticejs-close');
+    close.setAttribute('class', 'close');
     close.innerHTML = '&times;';
     element.appendChild(close);
   }
@@ -130,22 +130,43 @@ var createHeader = function createHeader(title, options) {
  */
 var createBody = function createBody(content) {
   var element = document.createElement('div');
-  element.setAttribute('class', 'noticejs-body');
-  element.textContent = content;
+  element.setAttribute('class', 'body');
+  element.innerHTML = content;
   return element;
 };
 
 /**
 * Append NoticeJs item
 */
-var appendNoticeJs = function appendNoticeJs(header, body, position) {
-  var target_class = '.noticejs-' + position;
+var appendNoticeJs = function appendNoticeJs(header, body, options) {
+  var target_class = '.noticejs-' + options.position;
   // Create NoticeJs item
   var noticeJsItem = document.createElement('div');
-  noticeJsItem.setAttribute('class', 'noticejs-item');
-  noticeJsItem.appendChild(header);
+  noticeJsItem.classList.add('item');
+  noticeJsItem.classList.add(options.type);
+  if (header) {
+    noticeJsItem.appendChild(header);
+  }
   noticeJsItem.appendChild(body);
   document.querySelector(target_class).appendChild(noticeJsItem);
+
+  // Close event click
+  var noticeItems = document.querySelectorAll('.noticejs .item .close');
+  Array.from(noticeItems).forEach(function (item) {
+    if (typeof item !== 'undefined' && item !== null) {
+      item.addEventListener('click', function (event) {
+        var parent = event.target.closest('div.noticejs');
+        // Remove the notice item
+        event.target.closest('div.item').remove();
+        // Remove the notice container if it does not have any item
+        if (parent !== null) {
+          if (parent.getElementsByClassName('item').length === 0) {
+            parent.remove();
+          }
+        }
+      });
+    }
+  });
 };
 
 var init = function init(data, settings) {
@@ -155,7 +176,7 @@ var init = function init(data, settings) {
   createContainer(options.position);
 
   // Create NoticeJs header
-  if (data.title !== 'undefined') {
+  if (data.title !== 'undefined' && data.title !== '') {
     noticeJsHeader = createHeader(data.title, options);
   }
 
@@ -164,7 +185,7 @@ var init = function init(data, settings) {
   noticeJsBody = createBody(content);
 
   //Append NoticeJs
-  appendNoticeJs(noticeJsHeader, noticeJsBody, options.position);
+  appendNoticeJs(noticeJsHeader, noticeJsBody, options);
 };
 
 module.exports = {

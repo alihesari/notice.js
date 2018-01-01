@@ -1,0 +1,47 @@
+body, html {
+    height: 100%;
+}
+.bg { 
+    content: '';
+    background: url('../img/bg.jpg');
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+body {
+    font-family: sans-serif;
+}
+.container {
+    padding: 0 190px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: table;
+}
+#noticejs {
+    text-align: center;
+}
+#notice-option {
+    display: table;
+    margin: 30px auto;
+}
+h1 {
+    font-size: 70px;
+    font-weight: bold;
+    color: #323230;
+    margin-bottom: 0;
+}
+h2 {
+    letter-spacing: 3px;
+    color: #323230;
+    display: table;
+    margin: 0 auto 20px;
+}
+#run-notice {
+    position: relative;
+    top: 20px;
+}
