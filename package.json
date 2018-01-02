@@ -1,27 +1,17 @@
 {
-  "name": "noticejs",
+  "name": "notice.js",
+  "description": "A beautiful and modern, yet fully customizable notification library",
   "version": "1.0.0",
-  "description": "Notification library",
-  "main": "notice.js",
+  "author": "Ali Hesari",
+  "homepage": "https://github.com/toolkito/notice.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toolkito/notice.js.git"
+  },
   "scripts": {
     "babel": "babel --presets es2015 src/js/notice.js -o dist/notice.js",
     "webpack": "webpack"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/alihesari/noticejs.git"
-  },
-  "keywords": [
-    "notification",
-    "notice",
-    "alert"
-  ],
-  "author": "Ali Hesari",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/alihesari/noticejs/issues"
-  },
-  "homepage": "https://github.com/alihesari/noticejs#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -34,5 +24,20 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0"
+  },
+  "keywords": [
+    "notification",
+    "notice",
+    "alert"
+  ],
+  "license": "MIT",
+  "spm": {
+    "main": "notice.js",
+    "output": [
+      "noticejs.css"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/toolkito/notice.js/issues"
   }
 }
