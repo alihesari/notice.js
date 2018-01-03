@@ -1,4 +1,4 @@
-# Noticejs
+# Notice.js
 
 ![](https://travis-ci.org/toolkito/noticejs.svg?branch=master)
 
@@ -7,14 +7,14 @@
 ## Download & Install
 
 - You can quickly install Notice.js via [NPM](http://npmjs.com/):
-    ```bash
-    npm install notice.js --save
-    ```
+```bash
+npm install notice.js --save
+```
     
 - Using [Bower](http://bower.io/):
-    ```bash
-    bower install notice.js --save
-    ```
+```bash
+bower install notice.js --save
+```
 
 - Direct download: [Click here](https://github.com/toolkito/notice.js/archive/master.zip)
 
