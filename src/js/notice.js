@@ -70,6 +70,10 @@ const appendNoticeJs = (header, body, options) => {
     noticeJsItem.appendChild(header);
   }
   noticeJsItem.appendChild(body);
+  // Empty top and bottom container
+  if(['top','bottom'].includes(options.position)){
+    document.querySelector(target_class).innerHTML = '';
+  }
   document.querySelector(target_class).appendChild(noticeJsItem);
 
   // Close event click

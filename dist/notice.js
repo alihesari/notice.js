@@ -91,8 +91,9 @@ var noticeJsBody = "";
 var options = {
   type: 'success',
   position: 'topRight',
-  close: true,
-  autoClose: true
+  closeButton: true,
+  autoClose: true,
+  closeTime: 10
 };
 
 /**
@@ -116,7 +117,7 @@ var createHeader = function createHeader(title, options) {
   var element = document.createElement('div');
   element.setAttribute('class', 'heading');
   element.textContent = title;
-  if (options.close === true) {
+  if (options.closeButton === true) {
     var close = document.createElement('div');
     close.setAttribute('class', 'close');
     close.innerHTML = '&times;';
@@ -148,6 +149,10 @@ var appendNoticeJs = function appendNoticeJs(header, body, options) {
     noticeJsItem.appendChild(header);
   }
   noticeJsItem.appendChild(body);
+  // Empty top and bottom container
+  if (['top', 'bottom'].includes(options.position)) {
+    document.querySelector(target_class).innerHTML = '';
+  }
   document.querySelector(target_class).appendChild(noticeJsItem);
 
   // Close event click
