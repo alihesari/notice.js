@@ -82,8 +82,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Private variable
  */
-var noticeJsHeader = "";
-var noticeJsBody = "";
+var noticeJsHeader = '';
+var noticeJsBody = '';
+var noticeJsProgressBar = '';
 
 /**
  * Default options
@@ -92,8 +93,8 @@ var options = {
   type: 'success',
   position: 'topRight',
   closeButton: true,
-  autoClose: true,
-  closeTime: 10
+  progressBar: true,
+  timeout: 30
 };
 
 /**
@@ -121,6 +122,17 @@ var createHeader = function createHeader(title, options) {
     var close = document.createElement('div');
     close.setAttribute('class', 'close');
     close.innerHTML = '&times;';
+    close.addEventListener('click', function (event) {
+      var parent = event.target.closest('div.noticejs');
+      // Remove the notice item
+      event.target.closest('div.item').remove();
+      // Remove the notice container if it does not have any item
+      if (parent !== null) {
+        if (parent.getElementsByClassName('item').length === 0) {
+          parent.remove();
+        }
+      }
+    });
     element.appendChild(close);
   }
   return element;
@@ -137,41 +149,60 @@ var createBody = function createBody(content) {
 };
 
 /**
+ * Create NoticeJs progressBar
+ */
+var createProgressBar = function createProgressBar(options) {
+  var element = document.createElement('div');
+  element.setAttribute('class', 'progressbar');
+  var bar = document.createElement('div');
+  bar.setAttribute('class', 'bar');
+  element.appendChild(bar);
+
+  // ProgressBar animate
+  if (progressBar === true && typeof options.timeout !== 'boolean' && options.timeout !== false) {
+    var frame = function frame() {
+      if (width <= 0) {
+        clearInterval(id);
+        var parent = element.closest('div.item').remove();
+      } else {
+        width--;
+        bar.style.width = width + '%';
+      }
+    };
+
+    var width = 100;
+    var id = setInterval(frame, options.timeout);
+  }
+
+  return element;
+};
+
+/**
 * Append NoticeJs item
 */
-var appendNoticeJs = function appendNoticeJs(header, body, options) {
+var appendNoticeJs = function appendNoticeJs(options) {
   var target_class = '.noticejs-' + options.position;
   // Create NoticeJs item
   var noticeJsItem = document.createElement('div');
   noticeJsItem.classList.add('item');
   noticeJsItem.classList.add(options.type);
-  if (header) {
-    noticeJsItem.appendChild(header);
+
+  // Add Header
+  if (noticeJsHeader !== '') {
+    noticeJsItem.appendChild(noticeJsHeader);
   }
-  noticeJsItem.appendChild(body);
+  // Add body
+  noticeJsItem.appendChild(noticeJsBody);
+  // Add progressBar
+  if (noticeJsProgressBar !== '') {
+    noticeJsItem.appendChild(noticeJsProgressBar);
+  }
+
   // Empty top and bottom container
   if (['top', 'bottom'].includes(options.position)) {
     document.querySelector(target_class).innerHTML = '';
   }
   document.querySelector(target_class).appendChild(noticeJsItem);
-
-  // Close event click
-  var noticeItems = document.querySelectorAll('.noticejs .item .close');
-  Array.from(noticeItems).forEach(function (item) {
-    if (typeof item !== 'undefined' && item !== null) {
-      item.addEventListener('click', function (event) {
-        var parent = event.target.closest('div.noticejs');
-        // Remove the notice item
-        event.target.closest('div.item').remove();
-        // Remove the notice container if it does not have any item
-        if (parent !== null) {
-          if (parent.getElementsByClassName('item').length === 0) {
-            parent.remove();
-          }
-        }
-      });
-    }
-  });
 };
 
 var init = function init(data, settings) {
@@ -186,11 +217,16 @@ var init = function init(data, settings) {
   }
 
   // Create NoticeJs body
-  var content = (typeof data === "undefined" ? "undefined" : _typeof(data)) === 'object' ? data.content : data;
+  var content = (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' ? data.content : data;
   noticeJsBody = createBody(content);
 
+  // Create NoticeJs progressBar
+  if (options.progressBar === true) {
+    noticeJsProgressBar = createProgressBar(options);
+  }
+
   //Append NoticeJs
-  appendNoticeJs(noticeJsHeader, noticeJsBody, options);
+  appendNoticeJs(options);
 };
 
 module.exports = {

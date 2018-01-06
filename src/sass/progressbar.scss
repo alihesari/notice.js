@@ -1,0 +1,15 @@
+.noticejs{
+    .progressbar{
+        width: 100%;
+        .bar{
+            width: 1%;
+            height: 30px;
+            background-color: #4CAF50;
+          }
+    }
+
+    @include noticejs-progressbar('success');
+    @include noticejs-progressbar('info');
+    @include noticejs-progressbar('warning');
+    @include noticejs-progressbar('error');
+}

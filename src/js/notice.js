@@ -3,8 +3,9 @@ import styles from './../sass/noticejs.scss';
 /**
  * Private variable
  */
-let noticeJsHeader = "";
-let noticeJsBody = "";
+let noticeJsHeader = '';
+let noticeJsBody = '';
+let noticeJsProgressBar = '';
 
 /**
  * Default options
@@ -13,8 +14,8 @@ let options = {
   type: 'success',
   position: 'topRight',
   closeButton: true,
-  autoClose: true,
-  closeTime: 10
+  progressBar: true,
+  timeout: 30
 };
 
 /**
@@ -42,6 +43,17 @@ const createHeader = (title, options) => {
     let close = document.createElement('div');
     close.setAttribute('class', 'close');
     close.innerHTML = '&times;';
+    close.addEventListener('click', function(event){
+      let parent = event.target.closest('div.noticejs');
+      // Remove the notice item
+      event.target.closest('div.item').remove();
+      // Remove the notice container if it does not have any item
+      if(parent !== null){
+        if(parent.getElementsByClassName('item').length === 0){
+          parent.remove();
+        }
+      }
+    });
     element.appendChild(close);
   }
   return element;
@@ -58,41 +70,59 @@ const createBody = (content) => {
 };
 
 /**
+ * Create NoticeJs progressBar
+ */
+const createProgressBar = (options) => {
+  let element = document.createElement('div');
+  element.setAttribute('class','progressbar');
+  let bar = document.createElement('div');
+  bar.setAttribute('class','bar');
+  element.appendChild(bar);
+  
+  // ProgressBar animate
+  if(progressBar === true && typeof options.timeout !== 'boolean' && options.timeout !== false) {
+    var width = 100;
+    var id = setInterval(frame, options.timeout);
+    function frame() {
+      if (width <= 0) {
+        clearInterval(id);
+        let parent = element.closest('div.item').remove();
+      } else {
+        width--; 
+        bar.style.width = width + '%'; 
+      }
+    }
+  }
+
+  return element;
+};
+
+/**
 * Append NoticeJs item
 */
-const appendNoticeJs = (header, body, options) => {
+const appendNoticeJs = (options) => {
   let target_class = '.noticejs-' + options.position;
   // Create NoticeJs item
   let noticeJsItem = document.createElement('div');
   noticeJsItem.classList.add('item');
   noticeJsItem.classList.add(options.type);
-  if(header) {
-    noticeJsItem.appendChild(header);
+
+  // Add Header
+  if(noticeJsHeader !== '') {
+    noticeJsItem.appendChild(noticeJsHeader);
   }
-  noticeJsItem.appendChild(body);
+  // Add body
+  noticeJsItem.appendChild(noticeJsBody);
+  // Add progressBar
+  if(noticeJsProgressBar !== ''){
+    noticeJsItem.appendChild(noticeJsProgressBar);  
+  }
+
   // Empty top and bottom container
   if(['top','bottom'].includes(options.position)){
     document.querySelector(target_class).innerHTML = '';
   }
   document.querySelector(target_class).appendChild(noticeJsItem);
-
-  // Close event click
-  let noticeItems =  document.querySelectorAll('.noticejs .item .close');
-  Array.from(noticeItems).forEach(item => {
-    if(typeof item !== 'undefined' && item !== null) {
-      item.addEventListener('click', function(event){
-        let parent = event.target.closest('div.noticejs');
-        // Remove the notice item
-        event.target.closest('div.item').remove();
-        // Remove the notice container if it does not have any item
-        if(parent !== null){
-          if(parent.getElementsByClassName('item').length === 0){
-            parent.remove();
-          }
-        }
-      });
-    }
-  });
 };
 
 const init = (data, settings) => {
@@ -110,11 +140,14 @@ const init = (data, settings) => {
   let content = (typeof data === 'object') ? data.content : data;
   noticeJsBody = createBody(content);
 
+  // Create NoticeJs progressBar
+  if(options.progressBar === true) {
+    noticeJsProgressBar = createProgressBar(options);
+  }
+
   //Append NoticeJs
-  appendNoticeJs(noticeJsHeader, noticeJsBody, options);
+  appendNoticeJs(options);
 };
-
-
 
 module.exports = {
   init

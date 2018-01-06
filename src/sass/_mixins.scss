@@ -30,3 +30,17 @@
     }
   }
 }
+
+@mixin noticejs-progressbar($type) {
+  .#{$type} {
+    .progressbar{
+        width: 100%;
+        background-color: map-deep-get($types, $type,'progressbar-bg');
+        .bar{
+            width: 100%;
+            height: $progressbar-height;
+            background: map-deep-get($types, $type,'progressbar-color');
+        }
+    }
+  }
+}
