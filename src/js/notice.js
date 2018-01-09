@@ -80,7 +80,7 @@ const createProgressBar = (options) => {
   element.appendChild(bar);
   
   // ProgressBar animate
-  if(progressBar === true && typeof options.timeout !== 'boolean' && options.timeout !== false) {
+  if(options.progressBar === true && typeof options.timeout !== 'boolean' && options.timeout !== false) {
     var width = 100;
     var id = setInterval(frame, options.timeout);
     function frame() {

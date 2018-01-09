@@ -159,7 +159,7 @@ var createProgressBar = function createProgressBar(options) {
   element.appendChild(bar);
 
   // ProgressBar animate
-  if (progressBar === true && typeof options.timeout !== 'boolean' && options.timeout !== false) {
+  if (options.progressBar === true && typeof options.timeout !== 'boolean' && options.timeout !== false) {
     var frame = function frame() {
       if (width <= 0) {
         clearInterval(id);
