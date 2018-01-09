@@ -12,9 +12,6 @@
   @return $map;
 }
 
-/**
-*
-*/
 @mixin noticejs-type($type) {
   .#{$type} {
     .heading {
@@ -36,6 +33,7 @@
     .progressbar{
         width: 100%;
         background-color: map-deep-get($types, $type,'progressbar-bg');
+        margin-top: -1px;
         .bar{
             width: 100%;
             height: $progressbar-height;
