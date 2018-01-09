@@ -86,7 +86,7 @@ const createProgressBar = (options) => {
     function frame() {
       if (width <= 0) {
         clearInterval(id);
-        let parent = element.closest('div.item').remove();
+        element.closest('div.item').remove();
       } else {
         width--; 
         bar.style.width = width + '%'; 
