@@ -215,11 +215,11 @@ var appendNoticeJs = function appendNoticeJs() {
 };
 
 /**
- * init 
+ * show 
  * @param {*} data 
  * @param {*} settings 
  */
-var init = function init(data, settings) {
+var show = function show(data, settings) {
   options = Object.assign(options, settings);
 
   // Create Noticejs container
@@ -239,12 +239,15 @@ var init = function init(data, settings) {
     noticeJsProgressBar = createProgressBar();
   }
 
+  // Add open animation
+
+
   //Append NoticeJs
   appendNoticeJs();
 };
 
 module.exports = {
-  init: init
+  show: show
 };
 
 /***/ }),

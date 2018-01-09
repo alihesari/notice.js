@@ -137,11 +137,11 @@ const appendNoticeJs = () => {
 };
 
 /**
- * init 
+ * show 
  * @param {*} data 
  * @param {*} settings 
  */
-const init = (data, settings) => {
+const show = (data, settings) => {
   options = Object.assign(options, settings);
 
   // Create Noticejs container
@@ -161,10 +161,13 @@ const init = (data, settings) => {
     noticeJsProgressBar = createProgressBar();
   }
 
+  // Add open animation
+
+
   //Append NoticeJs
   appendNoticeJs();
 };
 
 module.exports = {
-  init
+  show
 };
