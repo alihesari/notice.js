@@ -163,7 +163,7 @@ var createProgressBar = function createProgressBar(options) {
     var frame = function frame() {
       if (width <= 0) {
         clearInterval(id);
-        var parent = element.closest('div.item').remove();
+        element.closest('div.item').remove();
       } else {
         width--;
         bar.style.width = width + '%';
