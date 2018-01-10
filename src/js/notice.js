@@ -87,8 +87,26 @@ const createProgressBar = () => {
     function frame() {
       if (width <= 0) {
         clearInterval(id);
-        // Close notification when progress bar completed
-        element.closest('div.item').remove();
+        
+        let item = element.closest('div.item');
+        // Add close animation
+        if(options.animation.close !== null) {
+
+          // Remove open animation class
+          item.className = item.className.replace(new RegExp('(?:^|\\s)'+ options.animation.open + '(?:\\s|$)'), ' ');
+          // Add close animation class
+          item.className += ' ' + options.animation.close;
+
+          // Close notification after 2s + timeout
+          let close_time = parseInt(options.timeout) + 2000;
+          setTimeout(()=>{
+            item.remove();
+          }, close_time);
+
+        } else {
+          // Close notification when progress bar completed
+          item.remove();
+        }
       } else {
         width--; 
         bar.style.width = width + '%'; 
@@ -98,13 +116,6 @@ const createProgressBar = () => {
 
   return element;
 };
-
-/**
- * Add animation
- */
-const addAnimation = (item) => {
-  
-}
 
 /**
 * Append NoticeJs item
@@ -133,6 +144,12 @@ const appendNoticeJs = () => {
   if(['top','bottom'].includes(options.position)){
     document.querySelector(target_class).innerHTML = '';
   }
+
+  // Add open animation
+  if(options.animation.open !== null) {
+    noticeJsItem.className += ' ' + options.animation.open;
+  }
+
   document.querySelector(target_class).appendChild(noticeJsItem);
 };
 
@@ -160,9 +177,6 @@ const show = (data, settings) => {
   if(options.progressBar === true) {
     noticeJsProgressBar = createProgressBar();
   }
-
-  // Add open animation
-
 
   //Append NoticeJs
   appendNoticeJs();
