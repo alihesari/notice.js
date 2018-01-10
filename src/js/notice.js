@@ -11,6 +11,8 @@ let noticeJsProgressBar = '';
  * Default options
  */
 let options = {
+  title: '',
+  text: '',
   type: 'success',
   position: 'topRight',
   closeButton: true,
@@ -156,22 +158,20 @@ const appendNoticeJs = () => {
 /**
  * show 
  * @param {*} data 
- * @param {*} settings 
  */
-const show = (data, settings) => {
-  options = Object.assign(options, settings);
+const show = (data) => {
+  options = Object.assign(options, data);
 
   // Create Noticejs container
   createContainer();
 
   // Create NoticeJs header
-  if (data.title !== 'undefined' && data.title !== '') {
-    noticeJsHeader = createHeader(data.title);
+  if (options.title !== 'undefined' && options.title !== '') {
+    noticeJsHeader = createHeader(options.title);
   }
 
   // Create NoticeJs body
-  let content = (typeof data === 'object') ? data.content : data;
-  noticeJsBody = createBody(content);
+  noticeJsBody = createBody(options.text);
 
   // Create NoticeJs progressBar
   if(options.progressBar === true) {

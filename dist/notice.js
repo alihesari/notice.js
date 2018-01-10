@@ -71,8 +71,6 @@ var NoticeJS =
 "use strict";
 
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _noticejs = __webpack_require__(1);
 
 var _noticejs2 = _interopRequireDefault(_noticejs);
@@ -90,6 +88,8 @@ var noticeJsProgressBar = '';
  * Default options
  */
 var options = {
+  title: '',
+  text: '',
   type: 'success',
   position: 'topRight',
   closeButton: true,
@@ -168,6 +168,7 @@ var createProgressBar = function createProgressBar() {
         var item = element.closest('div.item');
         // Add close animation
         if (options.animation.close !== null) {
+
           // Remove open animation class
           item.className = item.className.replace(new RegExp('(?:^|\\s)' + options.animation.open + '(?:\\s|$)'), ' ');
           // Add close animation class
@@ -234,22 +235,20 @@ var appendNoticeJs = function appendNoticeJs() {
 /**
  * show 
  * @param {*} data 
- * @param {*} settings 
  */
-var show = function show(data, settings) {
-  options = Object.assign(options, settings);
+var show = function show(data) {
+  options = Object.assign(options, data);
 
   // Create Noticejs container
   createContainer();
 
   // Create NoticeJs header
-  if (data.title !== 'undefined' && data.title !== '') {
-    noticeJsHeader = createHeader(data.title);
+  if (options.title !== 'undefined' && options.title !== '') {
+    noticeJsHeader = createHeader(options.title);
   }
 
   // Create NoticeJs body
-  var content = (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' ? data.content : data;
-  noticeJsBody = createBody(content);
+  noticeJsBody = createBody(options.text);
 
   // Create NoticeJs progressBar
   if (options.progressBar === true) {
