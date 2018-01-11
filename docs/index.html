@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="../dist/noticejs.css">
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
     <script src="./assets/js/jquery.min.js"></script>
 </head>
-
 <body>
     <div class="background">
         <div class="bg"></div>
@@ -64,13 +64,18 @@
     <script>
         $(".noticePosition").click(function () {
             var position = $(this).attr("aria-notice");
-            NoticeJS.init({
+            NoticeJS.show({
                 title: $("#noticeTitle").val(),
-                content: $("#noticeContent").val()
-            }, {
-                    position: position,
-                    type: $("#noticeType").val()
-                });
+                text: $("#noticeContent").val(),
+                position: position,
+                type: $("#noticeType").val(),
+                timeout: 30,
+                animation: {
+                    open: 'animated wobble',
+                    close: 'animated hinge'
+                }
+            }
+            );
         });
     </script>
 </body>
