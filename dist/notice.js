@@ -167,7 +167,7 @@ var createProgressBar = function createProgressBar() {
 
         var item = element.closest('div.item');
         // Add close animation
-        if (options.animation.close !== null) {
+        if (options.animation !== null && options.animation.close !== null) {
 
           // Remove open animation class
           item.className = item.className.replace(new RegExp('(?:^|\\s)' + options.animation.open + '(?:\\s|$)'), ' ');
@@ -225,7 +225,7 @@ var appendNoticeJs = function appendNoticeJs() {
   }
 
   // Add open animation
-  if (options.animation.open !== null) {
+  if (options.animation !== null && options.animation.open !== null) {
     noticeJsItem.className += ' ' + options.animation.open;
   }
 
