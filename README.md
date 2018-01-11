@@ -29,4 +29,31 @@ bower install notice.js --save
 <script src="node_modules/notice.js/dist/notice.js"></script>
 ```
 
+## Usage
+
+**Basic:**
+```javascript
+NoticeJS.show({
+    text: 'Notification message',
+    position: 'topLeft',
+});
+```
+
+**With animation:**
+
+Supports css animations, [animate.css](https://daneden.github.io/animate.css/)
+```javascript
+NoticeJS.show({
+    text: 'Notification message',
+    position: 'topLeft',
+    animation: {
+        open: 'animated bounceInRight',
+        close: 'animated bounceOutLeft'
+    }
+});
+```
+
+
+
+
 
