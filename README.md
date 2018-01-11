@@ -1,6 +1,6 @@
 # Notice.js
 
-![](https://travis-ci.org/toolkito/noticejs.svg?branch=master)
+![](https://api.travis-ci.org/toolkito/notice.js.svg?branch=master)
 
 > A beautiful and modern, yet fully customizable notification library.
 
