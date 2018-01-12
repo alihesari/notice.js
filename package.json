@@ -6,7 +6,7 @@
   "homepage": "https://github.com/toolkito/notice.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/toolkito/notice.js.git"
+    "url": "git://github.com/toolkito/notice.js.git"
   },
   "scripts": {
     "babel": "babel --presets es2015 src/js/notice.js -o dist/notice.js",
