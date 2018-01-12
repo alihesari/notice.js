@@ -3,11 +3,15 @@ $max-height-content: 200px;
 $max-height-item: 500px;
 $font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 $position: fixed;
-$z-index: 1050;
+$z-index: 10050;
 $item-margin: 0 0 10px 0;
 $item-padding: 10px;
 $border-radius: 3px;
 $progressbar-height: 5px;
+
+$z-index-modal: 10000;
+$modal-bg: #000;
+$modal-opacity: .3;
 
 $types: (
   // Success style

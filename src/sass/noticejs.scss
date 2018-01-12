@@ -3,3 +3,31 @@
 @import "positions";
 @import "types";
 @import "progressbar";
+@import "animation";
+
+.noticejs {
+    position: fixed;
+    z-index: $z-index;
+    width: $width;
+}
+
+.noticejs-modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: $modal-bg;
+    z-index: $z-index-modal;
+    opacity: $modal-opacity;
+    left: 0;
+    top: 0;
+}
+
+.noticejs-modal-open {
+    opacity: 0;
+    animation: noticejs-modal-in .3s ease-out;
+}
+
+.noticejs-modal-close {
+    animation: noticejs-modal-out .3s ease-out;
+    animation-fill-mode: forwards;
+}

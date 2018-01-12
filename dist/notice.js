@@ -83,6 +83,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var noticeJsHeader = '';
 var noticeJsBody = '';
 var noticeJsProgressBar = '';
+var noticeJsModalClassName = 'noticejs-modal';
 
 /**
  * Default options
@@ -94,14 +95,14 @@ var options = {
   position: 'topRight',
   timeout: 30,
   progressBar: true,
-  closeWith: ['button', 'click'],
-  animation: null
-};
+  closeWith: ['button'],
+  animation: null,
+  modal: false
 
-/**
- * Create NoticeJs container
- */
-var createContainer = function createContainer() {
+  /**
+   * Create NoticeJs container
+   */
+};var createContainer = function createContainer() {
   var element_class = 'noticejs-' + options.position;
   // Create element
   var element = document.createElement('div');
@@ -167,13 +168,13 @@ var createProgressBar = function createProgressBar() {
           item.className += ' ' + options.animation.close;
 
           // Close notification after 2s + timeout
-          var close_time = parseInt(options.timeout) + 2000;
+          var close_time = parseInt(options.timeout) + 500;
           setTimeout(function () {
-            item.remove();
+            CloseItem(item);
           }, close_time);
         } else {
           // Close notification when progress bar completed
-          item.remove();
+          CloseItem(item);
         }
       } else {
         width--;
@@ -189,6 +190,47 @@ var createProgressBar = function createProgressBar() {
 };
 
 /**
+ * Add Modal
+ */
+var AddModal = function AddModal() {
+  if (document.getElementsByClassName(noticeJsModalClassName).length <= 0) {
+    var element = document.createElement('div');
+    element.classList.add(noticeJsModalClassName);
+    element.classList.add('noticejs-modal-open');
+    document.body.appendChild(element);
+    // Remove class noticejs-modal-open
+    setTimeout(function () {
+      element.className = noticeJsModalClassName;
+    }, 200);
+  }
+};
+
+/**
+ * 
+ * @param {Noticejs item} item 
+ */
+var CloseItem = function CloseItem(item) {
+  // Set animation to close notification item
+  var closeAnimation = 'noticejs-fadeOut';
+  if (options.animation !== null && options.animation.close !== null) {
+    closeAnimation = options.animation.close;
+  }
+  // Close notification item
+  item.className += ' ' + closeAnimation;
+  setTimeout(function () {
+    item.remove();
+  }, 200);
+
+  // Close modal
+  if (options.modal === true && document.querySelectorAll("[noticejs-modal='true']").length <= 1) {
+    document.querySelector('.noticejs-modal').className += ' noticejs-modal-close';
+    setTimeout(function () {
+      document.querySelector('.noticejs-modal').remove();
+    }, 500);
+  }
+};
+
+/**
  * 
  * @param {Notification item} item 
  */
@@ -196,7 +238,7 @@ var addListener = function addListener(item) {
   // Add close button
   if (options.closeWith.includes('button')) {
     item.querySelector('.close').addEventListener('click', function () {
-      item.remove();
+      CloseItem(item);
     });
   }
 
@@ -204,7 +246,7 @@ var addListener = function addListener(item) {
   if (options.closeWith.includes('click')) {
     item.style.cursor = 'pointer';
     item.addEventListener('click', function () {
-      item.remove();
+      CloseItem(item);
     });
   }
 };
@@ -242,6 +284,12 @@ var appendNoticeJs = function appendNoticeJs() {
     noticeJsItem.className += ' ' + options.animation.open;
   }
 
+  // Add Modal
+  if (options.modal === true) {
+    noticeJsItem.setAttribute('noticejs-modal', 'true');
+    AddModal();
+  }
+
   // Add Listener
   addListener(noticeJsItem);
 
@@ -250,7 +298,7 @@ var appendNoticeJs = function appendNoticeJs() {
 
 /**
  * show 
- * @param {*} data 
+ * @param {Noticejs options} data 
  */
 var show = function show(data) {
   options = Object.assign(options, data);
@@ -275,6 +323,9 @@ var show = function show(data) {
   appendNoticeJs();
 };
 
+/**
+ * Define modules
+ */
 module.exports = {
   show: show
 };

@@ -1,0 +1,23 @@
+@keyframes noticejs-fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+.noticejs-fadeOut {
+    animation-name: noticejs-fadeOut;
+}
+
+@keyframes noticejs-modal-in {
+    100% {
+        opacity: .3;
+    }
+}
+@keyframes noticejs-modal-out {
+    100% {
+        opacity: 0;
+    }
+}
