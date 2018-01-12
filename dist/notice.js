@@ -92,9 +92,9 @@ var options = {
   text: '',
   type: 'success',
   position: 'topRight',
-  closeButton: true,
-  progressBar: true,
   timeout: 30,
+  progressBar: true,
+  closeWith: ['button', 'click'],
   animation: null
 };
 
@@ -119,23 +119,15 @@ var createHeader = function createHeader(title) {
   var element = document.createElement('div');
   element.setAttribute('class', 'heading');
   element.textContent = title;
-  if (options.closeButton === true) {
+
+  // Add close button
+  if (options.closeWith.includes('button')) {
     var close = document.createElement('div');
     close.setAttribute('class', 'close');
     close.innerHTML = '&times;';
-    close.addEventListener('click', function (event) {
-      var parent = event.target.closest('div.noticejs');
-      // Remove the notice item
-      event.target.closest('div.item').remove();
-      // Remove the notice container if it does not have any item
-      if (parent !== null) {
-        if (parent.getElementsByClassName('item').length === 0) {
-          parent.remove();
-        }
-      }
-    });
     element.appendChild(close);
   }
+
   return element;
 };
 
@@ -197,6 +189,27 @@ var createProgressBar = function createProgressBar() {
 };
 
 /**
+ * 
+ * @param {Notification item} item 
+ */
+var addListener = function addListener(item) {
+  // Add close button
+  if (options.closeWith.includes('button')) {
+    item.querySelector('.close').addEventListener('click', function () {
+      item.remove();
+    });
+  }
+
+  // Add close by click
+  if (options.closeWith.includes('click')) {
+    item.style.cursor = 'pointer';
+    item.addEventListener('click', function () {
+      item.remove();
+    });
+  }
+};
+
+/**
 * Append NoticeJs item
 */
 var appendNoticeJs = function appendNoticeJs() {
@@ -228,6 +241,9 @@ var appendNoticeJs = function appendNoticeJs() {
   if (options.animation !== null && options.animation.open !== null) {
     noticeJsItem.className += ' ' + options.animation.open;
   }
+
+  // Add Listener
+  addListener(noticeJsItem);
 
   document.querySelector(target_class).appendChild(noticeJsItem);
 };
