@@ -167,7 +167,7 @@ var createProgressBar = function createProgressBar() {
           // Add close animation class
           item.className += ' ' + options.animation.close;
 
-          // Close notification after 2s + timeout
+          // Close notification after 0.5s + timeout
           var close_time = parseInt(options.timeout) + 500;
           setTimeout(function () {
             CloseItem(item);
