@@ -1,7 +1,7 @@
 {
   "name": "notice.js",
   "description": "A beautiful and modern, yet fully customizable notification library",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "Ali Hesari",
   "homepage": "https://github.com/toolkito/notice.js",
   "repository": {
