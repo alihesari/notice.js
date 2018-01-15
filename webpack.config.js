@@ -2,13 +2,15 @@ var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = {
+const config = {
   entry: './src/js/notice.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: 'dist/',
     filename: 'notice.js',
-    library: 'NoticeJS',
+    library: 'NoticeJs',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   module: {
     rules: [{
@@ -46,3 +48,5 @@ module.exports = {
     new ExtractTextPlugin("noticejs.css"),
   ]
 };
+
+module.exports = config;
