@@ -33,24 +33,24 @@ bower install notice.js --save
 
 **Basic:**
 ```javascript
-NoticeJS.show({
+new NoticeJs({
     text: 'Notification message',
     position: 'topLeft',
-});
+}).show();
 ```
 
 **With animation:**
 
 Supports css animations, [animate.css](https://daneden.github.io/animate.css/)
 ```javascript
-NoticeJS.show({
+new NoticeJs({
     text: 'Notification message',
     position: 'topLeft',
     animation: {
         open: 'animated bounceInRight',
         close: 'animated bounceOutLeft'
     }
-});
+}).show();
 ```
 
 
