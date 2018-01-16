@@ -1,3 +1,4 @@
+
 import styles from './../sass/noticejs.scss';
 import * as API from './api';
 import { Components } from './components';
@@ -9,9 +10,9 @@ export default class NoticeJs {
    * @returns {Noty}
    */
   constructor (options = {}) {
-    console.log(options);
     this.options = Object.assign(API.Defaults, options);
     this.component = new Components();
+    
     return this;
   }
   
@@ -25,7 +26,7 @@ export default class NoticeJs {
     if (this.options.title !== 'undefined' && 
         this.options.title !== ''
     ) {
-      noticeJsHeader = this.component.createHeader(this.options.title);
+      noticeJsHeader = this.component.createHeader(this.options.title, this.options.closeWith);
     }
 
     // Create NoticeJs body
@@ -37,6 +38,6 @@ export default class NoticeJs {
     }
   
     //Append NoticeJs
-    helpers.appendNoticeJs(this.options, noticeJsHeader, noticeJsBody, noticeJsProgressBar);
+    element.appendNoticeJs(this.options, noticeJsHeader, noticeJsBody, noticeJsProgressBar);
   }
 }

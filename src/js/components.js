@@ -1,5 +1,6 @@
 export class Components {
-  createContainer (position){
+  
+  createContainer (position) {
     let element_class = 'noticejs-' + position;
     // Create element
     let element = document.createElement('div');
@@ -9,13 +10,13 @@ export class Components {
     return element;
   }
 
-  createHeader (title) {
+  createHeader (title, closeWith = []) {
     let element = document.createElement('div');
     element.setAttribute('class', 'heading');
     element.textContent = title;
     
     // Add close button
-    if (options.closeWith.includes('button')) {
+    if (closeWith.includes('button')) {
       let close = document.createElement('div');
       close.setAttribute('class', 'close');
       close.innerHTML = '&times;';

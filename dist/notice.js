@@ -141,9 +141,9 @@ var NoticeJs = function () {
 
     _classCallCheck(this, NoticeJs);
 
-    console.log(options);
     this.options = Object.assign(API.Defaults, options);
     this.component = new _components.Components();
+
     return this;
   }
 
@@ -157,7 +157,7 @@ var NoticeJs = function () {
 
       // Create NoticeJs header
       if (this.options.title !== 'undefined' && this.options.title !== '') {
-        noticeJsHeader = this.component.createHeader(this.options.title);
+        noticeJsHeader = this.component.createHeader(this.options.title, this.options.closeWith);
       }
 
       // Create NoticeJs body
@@ -169,7 +169,7 @@ var NoticeJs = function () {
       }
 
       //Append NoticeJs
-      helpers.appendNoticeJs(this.options, noticeJsHeader, noticeJsBody, noticeJsProgressBar);
+      element.appendNoticeJs(this.options, noticeJsHeader, noticeJsBody, noticeJsProgressBar);
     }
   }]);
 
@@ -177,6 +177,7 @@ var NoticeJs = function () {
 }();
 
 exports.default = NoticeJs;
+module.exports = exports['default'];
 
 /***/ }),
 /* 2 */
@@ -218,12 +219,14 @@ var Components = exports.Components = function () {
   }, {
     key: 'createHeader',
     value: function createHeader(title) {
+      var closeWith = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
       var element = document.createElement('div');
       element.setAttribute('class', 'heading');
       element.textContent = title;
 
       // Add close button
-      if (options.closeWith.includes('button')) {
+      if (closeWith.includes('button')) {
         var close = document.createElement('div');
         close.setAttribute('class', 'close');
         close.innerHTML = '&times;';
@@ -346,14 +349,14 @@ var CloseItem = exports.CloseItem = function CloseItem(item) {
 };
 
 var addListener = exports.addListener = function addListener(item, closeWith) {
-    // Add close button
+    // Add close button Event
     if (closeWith.includes('button')) {
         item.querySelector('.close').addEventListener('click', function () {
             CloseItem(item);
         });
     }
 
-    // Add close by click
+    // Add close by click Event
     if (closeWith.includes('click')) {
         item.style.cursor = 'pointer';
         item.addEventListener('click', function () {

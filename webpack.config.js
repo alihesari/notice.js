@@ -13,21 +13,20 @@ const config = {
     umdNamedDefine: true
   },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['babel-preset-env']
-          }
+          loader: 'babel-loader'
         }
       },
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [{
+          use: [
+            {
               loader: 'css-loader',
               options: {
                 minimize: true

@@ -37,14 +37,14 @@ export const CloseItem = (item, animation = null, modal = false) => {
 }
 
 export const addListener = (item, closeWith) => {
-    // Add close button
+    // Add close button Event
     if (closeWith.includes('button')) {
         item.querySelector('.close').addEventListener('click', function () {
             CloseItem(item);
         });
     }
 
-    // Add close by click
+    // Add close by click Event
     if (closeWith.includes('click')) {
         item.style.cursor = 'pointer';
         item.addEventListener('click', function () {
