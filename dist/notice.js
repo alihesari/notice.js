@@ -402,7 +402,7 @@ var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(options, n
     }
 
     // Add Listener
-    addListener(noticeJsItem);
+    addListener(noticeJsItem, options.closeWith);
 
     document.querySelector(target_class).appendChild(noticeJsItem);
 };

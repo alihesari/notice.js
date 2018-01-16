@@ -10,7 +10,7 @@
   },
   "scripts": {
     "babel": "babel --presets es2015 src/js/notice.js -o dist/notice.js",
-    "webpack": "webpack"
+    "dev": "webpack --progress --colors --watch --env dev"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

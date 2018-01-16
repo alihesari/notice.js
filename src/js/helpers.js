@@ -90,7 +90,7 @@ export const appendNoticeJs = (options, noticeJsHeader, noticeJsBody, noticeJsPr
     }
   
     // Add Listener
-    addListener(noticeJsItem);
+    addListener(noticeJsItem, options.closeWith);
   
     document.querySelector(target_class).appendChild(noticeJsItem);
   }

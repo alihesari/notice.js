@@ -18,7 +18,11 @@ const config = {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: {
+            presets: ['babel-preset-env'],
+            plugins: [require('babel-plugin-add-module-exports')]
+          }
         }
       },
       {
@@ -39,9 +43,6 @@ const config = {
         })
       }
     ]
-  },
-  stats: {
-    colors: true
   },
   plugins: [
     new ExtractTextPlugin("noticejs.css"),
