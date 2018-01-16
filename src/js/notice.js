@@ -2,7 +2,7 @@
 import styles from './../sass/noticejs.scss';
 import * as API from './api';
 import { Components } from './components';
-import * as element from './helpers';
+import * as helper from './helpers';
 
 export default class NoticeJs {
   /**
@@ -17,7 +17,7 @@ export default class NoticeJs {
   }
   
   show () {
-    let container = this.component.createContainer(this.options.position);
+    let container = this.component.createContainer();
     if (document.querySelector('.noticejs-' + this.options.position) === null) {
       document.body.appendChild(container);
     }
@@ -42,6 +42,6 @@ export default class NoticeJs {
     }
   
     //Append NoticeJs
-    element.appendNoticeJs(this.options, noticeJsHeader, noticeJsBody, noticeJsProgressBar);
+    helper.appendNoticeJs(noticeJsHeader, noticeJsBody, noticeJsProgressBar);
   }
 }

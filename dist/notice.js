@@ -123,7 +123,7 @@ var _components = __webpack_require__(3);
 
 var _helpers = __webpack_require__(4);
 
-var element = _interopRequireWildcard(_helpers);
+var helper = _interopRequireWildcard(_helpers);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -150,7 +150,7 @@ var NoticeJs = function () {
   _createClass(NoticeJs, [{
     key: 'show',
     value: function show() {
-      var container = this.component.createContainer(this.options.position);
+      var container = this.component.createContainer();
       if (document.querySelector('.noticejs-' + this.options.position) === null) {
         document.body.appendChild(container);
       }
@@ -173,7 +173,7 @@ var NoticeJs = function () {
       }
 
       //Append NoticeJs
-      element.appendNoticeJs(this.options, noticeJsHeader, noticeJsBody, noticeJsProgressBar);
+      helper.appendNoticeJs(noticeJsHeader, noticeJsBody, noticeJsProgressBar);
     }
   }]);
 
@@ -199,10 +199,23 @@ module.exports = exports['default'];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Components = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _api = __webpack_require__(0);
+
+var API = _interopRequireWildcard(_api);
+
+var _helpers = __webpack_require__(4);
+
+var helper = _interopRequireWildcard(_helpers);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var options = API.Defaults;
 
 var Components = exports.Components = function () {
   function Components() {
@@ -211,8 +224,8 @@ var Components = exports.Components = function () {
 
   _createClass(Components, [{
     key: 'createContainer',
-    value: function createContainer(position) {
-      var element_class = 'noticejs-' + position;
+    value: function createContainer() {
+      var element_class = 'noticejs-' + options.position;
       // Create element
       var element = document.createElement('div');
       element.classList.add('noticejs');
@@ -222,15 +235,13 @@ var Components = exports.Components = function () {
     }
   }, {
     key: 'createHeader',
-    value: function createHeader(title) {
-      var closeWith = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
+    value: function createHeader() {
       var element = document.createElement('div');
       element.setAttribute('class', 'heading');
-      element.textContent = title;
+      element.textContent = options.title;
 
       // Add close button
-      if (closeWith.includes('button')) {
+      if (options.closeWith.includes('button')) {
         var close = document.createElement('div');
         close.setAttribute('class', 'close');
         close.innerHTML = '&times;';
@@ -241,15 +252,15 @@ var Components = exports.Components = function () {
     }
   }, {
     key: 'createBody',
-    value: function createBody(content) {
+    value: function createBody() {
       var element = document.createElement('div');
       element.setAttribute('class', 'body');
-      element.innerHTML = content;
+      element.innerHTML = options.text;
       return element;
     }
   }, {
     key: 'createProgressBar',
-    value: function createProgressBar(progressBar, timeout, animation) {
+    value: function createProgressBar() {
       var element = document.createElement('div');
       element.setAttribute('class', 'progressbar');
       var bar = document.createElement('div');
@@ -257,28 +268,28 @@ var Components = exports.Components = function () {
       element.appendChild(bar);
 
       // Progress bar animation
-      if (progressBar === true && typeof timeout !== 'boolean' && timeout !== false) {
+      if (options.progressBar === true && typeof options.timeout !== 'boolean' && options.timeout !== false) {
         var frame = function frame() {
           if (width <= 0) {
             clearInterval(id);
 
             var item = element.closest('div.item');
             // Add close animation
-            if (animation !== null && animation.close !== null) {
+            if (options.animation !== null && options.animation.close !== null) {
 
               // Remove open animation class
-              item.className = item.className.replace(new RegExp('(?:^|\\s)' + animation.open + '(?:\\s|$)'), ' ');
+              item.className = item.className.replace(new RegExp('(?:^|\\s)' + options.animation.open + '(?:\\s|$)'), ' ');
               // Add close animation class
-              item.className += ' ' + animation.close;
+              item.className += ' ' + options.animation.close;
 
               // Close notification after 0.5s + timeout
-              var close_time = parseInt(timeout) + 500;
+              var close_time = parseInt(options.timeout) + 500;
               setTimeout(function () {
-                CloseItem(item);
+                helper.CloseItem(item);
               }, close_time);
             } else {
               // Close notification when progress bar completed
-              CloseItem(item);
+              helper.CloseItem(item);
             }
           } else {
             width--;
@@ -287,7 +298,7 @@ var Components = exports.Components = function () {
         };
 
         var width = 100;
-        var id = setInterval(frame, timeout);
+        var id = setInterval(frame, options.timeout);
       }
 
       return element;
@@ -315,6 +326,8 @@ var API = _interopRequireWildcard(_api);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+var options = API.Defaults;
+
 var AddModal = exports.AddModal = function AddModal() {
     if (document.getElementsByClassName(API.noticeJsModalClassName).length <= 0) {
         var element = document.createElement('div');
@@ -329,13 +342,10 @@ var AddModal = exports.AddModal = function AddModal() {
 };
 
 var CloseItem = exports.CloseItem = function CloseItem(item) {
-    var animation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    var modal = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
     // Set animation to close notification item
     var closeAnimation = API.closeAnimation;
-    if (animation !== null && animation.close !== null) {
-        closeAnimation = animation.close;
+    if (options.animation !== null && options.animation.close !== null) {
+        closeAnimation = options.animation.close;
     }
     // Close notification item
     item.className += ' ' + closeAnimation;
@@ -344,7 +354,7 @@ var CloseItem = exports.CloseItem = function CloseItem(item) {
     }, 200);
 
     // Close modal
-    if (modal === true && document.querySelectorAll("[noticejs-modal='true']").length <= 1) {
+    if (options.modal === true && document.querySelectorAll("[noticejs-modal='true']").length <= 1) {
         document.querySelector('.noticejs-modal').className += ' noticejs-modal-close';
         setTimeout(function () {
             document.querySelector('.noticejs-modal').remove();
@@ -352,16 +362,16 @@ var CloseItem = exports.CloseItem = function CloseItem(item) {
     }
 };
 
-var addListener = exports.addListener = function addListener(item, closeWith) {
+var addListener = exports.addListener = function addListener(item) {
     // Add close button Event
-    if (closeWith.includes('button')) {
+    if (options.closeWith.includes('button')) {
         item.querySelector('.close').addEventListener('click', function () {
             CloseItem(item);
         });
     }
 
     // Add close by click Event
-    if (closeWith.includes('click')) {
+    if (options.closeWith.includes('click')) {
         item.style.cursor = 'pointer';
         item.addEventListener('click', function () {
             CloseItem(item);
@@ -369,7 +379,7 @@ var addListener = exports.addListener = function addListener(item, closeWith) {
     }
 };
 
-var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(options, noticeJsHeader, noticeJsBody, noticeJsProgressBar) {
+var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(noticeJsHeader, noticeJsBody, noticeJsProgressBar) {
     var target_class = '.noticejs-' + options.position;
     // Create NoticeJs item
     var noticeJsItem = document.createElement('div');

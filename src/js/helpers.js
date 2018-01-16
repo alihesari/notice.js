@@ -1,4 +1,5 @@
 import * as API from './api';
+let options = API.Defaults;
 
 export const AddModal = () => {
     if (document.getElementsByClassName(API.noticeJsModalClassName).length <= 0) {
@@ -13,13 +14,13 @@ export const AddModal = () => {
     }
 }
 
-export const CloseItem = (item, animation = null, modal = false) => {
+export const CloseItem = (item) => {
     // Set animation to close notification item
     let closeAnimation = API.closeAnimation;
-    if (animation !== null && 
-        animation.close !== null
+    if (options.animation !== null && 
+        options.animation.close !== null
     ) {
-        closeAnimation = animation.close;
+        closeAnimation = options.animation.close;
     }
     // Close notification item
     item.className += ' ' + closeAnimation;
@@ -28,7 +29,7 @@ export const CloseItem = (item, animation = null, modal = false) => {
     }, 200);
 
     // Close modal
-    if (modal === true && document.querySelectorAll("[noticejs-modal='true']").length <= 1) {
+    if (options.modal === true && document.querySelectorAll("[noticejs-modal='true']").length <= 1) {
         document.querySelector('.noticejs-modal').className += ' noticejs-modal-close';
         setTimeout(() => {
             document.querySelector('.noticejs-modal').remove();
@@ -36,16 +37,16 @@ export const CloseItem = (item, animation = null, modal = false) => {
     }
 }
 
-export const addListener = (item, closeWith) => {
+export const addListener = (item) => {
     // Add close button Event
-    if (closeWith.includes('button')) {
+    if (options.closeWith.includes('button')) {
         item.querySelector('.close').addEventListener('click', function () {
             CloseItem(item);
         });
     }
 
     // Add close by click Event
-    if (closeWith.includes('click')) {
+    if (options.closeWith.includes('click')) {
         item.style.cursor = 'pointer';
         item.addEventListener('click', function () {
             CloseItem(item);
@@ -53,7 +54,7 @@ export const addListener = (item, closeWith) => {
     }
 }
 
-export const appendNoticeJs = (options, noticeJsHeader, noticeJsBody, noticeJsProgressBar) => {
+export const appendNoticeJs = (noticeJsHeader, noticeJsBody, noticeJsProgressBar) => {
     let target_class = '.noticejs-' + options.position;
     // Create NoticeJs item
     let noticeJsItem = document.createElement('div');
@@ -91,6 +92,6 @@ export const appendNoticeJs = (options, noticeJsHeader, noticeJsBody, noticeJsPr
   
     // Add Listener
     addListener(noticeJsItem, options.closeWith);
-    
+
     document.querySelector(target_class).appendChild(noticeJsItem);
   }

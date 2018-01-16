@@ -1,7 +1,11 @@
+import * as API from './api';
+import * as helper from './helpers';
+let options = API.Defaults;
+
 export class Components {
   
-  createContainer (position) {
-    let element_class = 'noticejs-' + position;
+  createContainer () {
+    let element_class = 'noticejs-' + options.position;
     // Create element
     let element = document.createElement('div');
     element.classList.add('noticejs');
@@ -10,13 +14,13 @@ export class Components {
     return element;
   }
 
-  createHeader (title, closeWith = []) {
+  createHeader () {
     let element = document.createElement('div');
     element.setAttribute('class', 'heading');
-    element.textContent = title;
+    element.textContent = options.title;
     
     // Add close button
-    if (closeWith.includes('button')) {
+    if (options.closeWith.includes('button')) {
       let close = document.createElement('div');
       close.setAttribute('class', 'close');
       close.innerHTML = '&times;';
@@ -26,14 +30,14 @@ export class Components {
     return element;
   }
 
-  createBody (content) {
+  createBody () {
     let element = document.createElement('div');
     element.setAttribute('class', 'body');
-    element.innerHTML = content;
+    element.innerHTML = options.text;
     return element;
   }
 
-  createProgressBar (progressBar, timeout, animation) {
+  createProgressBar () {
     let element = document.createElement('div');
     element.setAttribute('class','progressbar');
     let bar = document.createElement('div');
@@ -41,36 +45,36 @@ export class Components {
     element.appendChild(bar);
     
     // Progress bar animation
-    if(progressBar === true &&
-      typeof timeout !== 'boolean' && 
-      timeout !== false
+    if(options.progressBar === true &&
+      typeof options.timeout !== 'boolean' && 
+      options.timeout !== false
     ) {
       let width = 100;
-      let id = setInterval(frame, timeout);
+      let id = setInterval(frame, options.timeout);
       function frame() {
         if (width <= 0) {
           clearInterval(id);
           
           let item = element.closest('div.item');
           // Add close animation
-          if(animation !== null &&
-            animation.close !== null
+          if(options.animation !== null &&
+            options.animation.close !== null
           ) {
   
             // Remove open animation class
-            item.className = item.className.replace(new RegExp('(?:^|\\s)'+ animation.open + '(?:\\s|$)'), ' ');
+            item.className = item.className.replace(new RegExp('(?:^|\\s)'+ options.animation.open + '(?:\\s|$)'), ' ');
             // Add close animation class
-            item.className += ' ' + animation.close;
+            item.className += ' ' + options.animation.close;
   
             // Close notification after 0.5s + timeout
-            let close_time = parseInt(timeout) + 500;
+            let close_time = parseInt(options.timeout) + 500;
             setTimeout(() => {
-              CloseItem(item);
+              helper.CloseItem(item);
             }, close_time);
   
           } else {
             // Close notification when progress bar completed
-            CloseItem(item);
+            helper.CloseItem(item);
           }
         } else {
           width--; 
