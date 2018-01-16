@@ -18,6 +18,10 @@ export default class NoticeJs {
   
   show () {
     let container = this.component.createContainer(this.options.position);
+    if (document.querySelector('.noticejs-' + this.options.position) === null) {
+      document.body.appendChild(container);
+    }
+
     let noticeJsHeader;
     let noticeJsBody;
     let noticeJsProgressBar;

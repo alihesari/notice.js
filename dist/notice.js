@@ -151,6 +151,10 @@ var NoticeJs = function () {
     key: 'show',
     value: function show() {
       var container = this.component.createContainer(this.options.position);
+      if (document.querySelector('.noticejs-' + this.options.position) === null) {
+        document.body.appendChild(container);
+      }
+
       var noticeJsHeader = void 0;
       var noticeJsBody = void 0;
       var noticeJsProgressBar = void 0;
