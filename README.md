@@ -21,12 +21,12 @@ bower install notice.js --save
 ### Link styles
 
 ```html
-<link rel="stylesheet" href="node_modules/notice.js/dist/noticejs.css" />
+<link rel="stylesheet" href="dist/noticejs.css" />
 ```
 
 ### Add scripts
 ```html
-<script src="node_modules/notice.js/dist/notice.js"></script>
+<script src="dist/notice.js"></script>
 ```
 
 ## Usage
