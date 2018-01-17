@@ -50,8 +50,10 @@ export const addListener = (item) => {
     // Add close by click Event
     if (options.closeWith.includes('click')) {
         item.style.cursor = 'pointer';
-        item.addEventListener('click', function () {
-            CloseItem(item);
+        item.addEventListener('click', function (e) {
+            if(e.target.className !== 'close') {
+                CloseItem(item);
+            }
         });
     }
 }
@@ -64,7 +66,7 @@ export const appendNoticeJs = (noticeJsHeader, noticeJsBody, noticeJsProgressBar
     noticeJsItem.classList.add(options.type);
   
     // Add Header
-    if(noticeJsHeader !== '') {
+    if(noticeJsHeader && noticeJsHeader !== '') {
       noticeJsItem.appendChild(noticeJsHeader);
     }
   
@@ -72,7 +74,7 @@ export const appendNoticeJs = (noticeJsHeader, noticeJsBody, noticeJsProgressBar
     noticeJsItem.appendChild(noticeJsBody);
   
     // Add progress bar
-    if(noticeJsProgressBar !== ''){
+    if(noticeJsProgressBar && noticeJsProgressBar !== ''){
       noticeJsItem.appendChild(noticeJsProgressBar);  
     }
   

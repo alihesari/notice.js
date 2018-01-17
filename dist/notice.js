@@ -160,9 +160,7 @@ var NoticeJs = function () {
       var noticeJsProgressBar = void 0;
 
       // Create NoticeJs header
-      if (this.options.title !== 'undefined' && this.options.title !== '') {
-        noticeJsHeader = this.component.createHeader(this.options.title, this.options.closeWith);
-      }
+      noticeJsHeader = this.component.createHeader(this.options.title, this.options.closeWith);
 
       // Create NoticeJs body
       noticeJsBody = this.component.createBody(this.options.text);
@@ -236,16 +234,23 @@ var Components = exports.Components = function () {
   }, {
     key: 'createHeader',
     value: function createHeader() {
-      var element = document.createElement('div');
-      element.setAttribute('class', 'heading');
-      element.textContent = options.title;
+      var element = void 0;
+      if (options.title && options.title !== '') {
+        element = document.createElement('div');
+        element.setAttribute('class', 'heading');
+        element.textContent = options.title;
+      }
 
       // Add close button
       if (options.closeWith.includes('button')) {
         var close = document.createElement('div');
         close.setAttribute('class', 'close');
         close.innerHTML = '&times;';
-        element.appendChild(close);
+        if (element) {
+          element.appendChild(close);
+        } else {
+          element = close;
+        }
       }
 
       return element;
@@ -373,8 +378,10 @@ var addListener = exports.addListener = function addListener(item) {
     // Add close by click Event
     if (options.closeWith.includes('click')) {
         item.style.cursor = 'pointer';
-        item.addEventListener('click', function () {
-            CloseItem(item);
+        item.addEventListener('click', function (e) {
+            if (e.target.className !== 'close') {
+                CloseItem(item);
+            }
         });
     }
 };
@@ -387,7 +394,7 @@ var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(noticeJsHe
     noticeJsItem.classList.add(options.type);
 
     // Add Header
-    if (noticeJsHeader !== '') {
+    if (noticeJsHeader && noticeJsHeader !== '') {
         noticeJsItem.appendChild(noticeJsHeader);
     }
 
@@ -395,7 +402,7 @@ var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(noticeJsHe
     noticeJsItem.appendChild(noticeJsBody);
 
     // Add progress bar
-    if (noticeJsProgressBar !== '') {
+    if (noticeJsProgressBar && noticeJsProgressBar !== '') {
         noticeJsItem.appendChild(noticeJsProgressBar);
     }
 

@@ -15,16 +15,25 @@ export class Components {
   }
 
   createHeader () {
-    let element = document.createElement('div');
-    element.setAttribute('class', 'heading');
-    element.textContent = options.title;
+    let element;
+    if (options.title && 
+        options.title !== ''
+    ) {
+      element = document.createElement('div');
+      element.setAttribute('class', 'heading');
+      element.textContent = options.title;
+    }
     
     // Add close button
     if (options.closeWith.includes('button')) {
       let close = document.createElement('div');
       close.setAttribute('class', 'close');
       close.innerHTML = '&times;';
-      element.appendChild(close);
+      if(element) {
+        element.appendChild(close);
+      } else {
+        element = close;
+      }
     }
     
     return element;

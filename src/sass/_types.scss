@@ -13,6 +13,10 @@
       color: #fff;
       text-shadow: 0 1px 0 #fff;
       opacity: 1;
+      &:hover{
+        opacity: .5;
+        color:#000;
+      }
     }
     a {
       color: #ffffff;

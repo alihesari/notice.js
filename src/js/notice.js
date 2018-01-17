@@ -27,11 +27,7 @@ export default class NoticeJs {
     let noticeJsProgressBar;
     
     // Create NoticeJs header
-    if (this.options.title !== 'undefined' && 
-        this.options.title !== ''
-    ) {
-      noticeJsHeader = this.component.createHeader(this.options.title, this.options.closeWith);
-    }
+    noticeJsHeader = this.component.createHeader(this.options.title, this.options.closeWith);
 
     // Create NoticeJs body
     noticeJsBody = this.component.createBody(this.options.text);
