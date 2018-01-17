@@ -10,5 +10,6 @@ export let Defaults = {
     progressBar: true,
     closeWith: ['button'],
     animation: null,
-    modal: false
+    modal: false,
+    scroll: null
 }

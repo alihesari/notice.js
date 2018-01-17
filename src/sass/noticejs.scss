@@ -9,6 +9,24 @@
     position: fixed;
     z-index: $z-index;
     width: $width;
+    
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    ::-webkit-scrollbar-button {
+        width: 8px;
+        height:5px;
+    }
+    ::-webkit-scrollbar-track {
+        border-radius:10px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.5);
+        border-radius:10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background:#ffffff;
+    }
 }
 
 .noticejs-modal {

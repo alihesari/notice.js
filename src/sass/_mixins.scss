@@ -14,27 +14,35 @@
 
 @mixin noticejs-type($type) {
   .#{$type} {
-    .heading {
+    background-color: map-deep-get($types, $type,'bg');
+    
+    .noticejs-heading {
       background-color: map-deep-get($types, $type,'heading-bg');
       color: map-deep-get($types, $type,'text-color');
       padding: $item-padding;
     }
 
-    .body {
-      background-color: map-deep-get($types, $type,'bg');
+    .noticejs-body {
       color: map-deep-get($types, $type,'text-color');
       padding: $item-padding;
+      &:hover{
+        visibility: visible !important;
+      }
+    }
+
+    .noticejs-content{
+      visibility: visible;
     }
   }
 }
 
 @mixin noticejs-progressbar($type) {
   .#{$type} {
-    .progressbar{
+    .noticejs-progressbar{
         width: 100%;
         background-color: map-deep-get($types, $type,'progressbar-bg');
         margin-top: -1px;
-        .bar{
+        .noticejs-bar{
             width: 100%;
             height: $progressbar-height;
             background: map-deep-get($types, $type,'progressbar-color');

@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -95,226 +95,12 @@ var Defaults = exports.Defaults = {
     progressBar: true,
     closeWith: ['button'],
     animation: null,
-    modal: false
+    modal: false,
+    scroll: null
 };
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _noticejs = __webpack_require__(2);
-
-var _noticejs2 = _interopRequireDefault(_noticejs);
-
-var _api = __webpack_require__(0);
-
-var API = _interopRequireWildcard(_api);
-
-var _components = __webpack_require__(3);
-
-var _helpers = __webpack_require__(4);
-
-var helper = _interopRequireWildcard(_helpers);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var NoticeJs = function () {
-  /**
-   * @param {object} options 
-   * @returns {Noty}
-   */
-  function NoticeJs() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, NoticeJs);
-
-    this.options = Object.assign(API.Defaults, options);
-    this.component = new _components.Components();
-
-    return this;
-  }
-
-  _createClass(NoticeJs, [{
-    key: 'show',
-    value: function show() {
-      var container = this.component.createContainer();
-      if (document.querySelector('.noticejs-' + this.options.position) === null) {
-        document.body.appendChild(container);
-      }
-
-      var noticeJsHeader = void 0;
-      var noticeJsBody = void 0;
-      var noticeJsProgressBar = void 0;
-
-      // Create NoticeJs header
-      noticeJsHeader = this.component.createHeader(this.options.title, this.options.closeWith);
-
-      // Create NoticeJs body
-      noticeJsBody = this.component.createBody(this.options.text);
-
-      // Create NoticeJs progressBar
-      if (this.options.progressBar === true) {
-        noticeJsProgressBar = this.component.createProgressBar();
-      }
-
-      //Append NoticeJs
-      helper.appendNoticeJs(noticeJsHeader, noticeJsBody, noticeJsProgressBar);
-    }
-  }]);
-
-  return NoticeJs;
-}();
-
-exports.default = NoticeJs;
-module.exports = exports['default'];
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Components = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _api = __webpack_require__(0);
-
-var API = _interopRequireWildcard(_api);
-
-var _helpers = __webpack_require__(4);
-
-var helper = _interopRequireWildcard(_helpers);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var options = API.Defaults;
-
-var Components = exports.Components = function () {
-  function Components() {
-    _classCallCheck(this, Components);
-  }
-
-  _createClass(Components, [{
-    key: 'createContainer',
-    value: function createContainer() {
-      var element_class = 'noticejs-' + options.position;
-      // Create element
-      var element = document.createElement('div');
-      element.classList.add('noticejs');
-      element.classList.add(element_class);
-
-      return element;
-    }
-  }, {
-    key: 'createHeader',
-    value: function createHeader() {
-      var element = void 0;
-      if (options.title && options.title !== '') {
-        element = document.createElement('div');
-        element.setAttribute('class', 'heading');
-        element.textContent = options.title;
-      }
-
-      // Add close button
-      if (options.closeWith.includes('button')) {
-        var close = document.createElement('div');
-        close.setAttribute('class', 'close');
-        close.innerHTML = '&times;';
-        if (element) {
-          element.appendChild(close);
-        } else {
-          element = close;
-        }
-      }
-
-      return element;
-    }
-  }, {
-    key: 'createBody',
-    value: function createBody() {
-      var element = document.createElement('div');
-      element.setAttribute('class', 'body');
-      element.innerHTML = options.text;
-      return element;
-    }
-  }, {
-    key: 'createProgressBar',
-    value: function createProgressBar() {
-      var element = document.createElement('div');
-      element.setAttribute('class', 'progressbar');
-      var bar = document.createElement('div');
-      bar.setAttribute('class', 'bar');
-      element.appendChild(bar);
-
-      // Progress bar animation
-      if (options.progressBar === true && typeof options.timeout !== 'boolean' && options.timeout !== false) {
-        var frame = function frame() {
-          if (width <= 0) {
-            clearInterval(id);
-
-            var item = element.closest('div.item');
-            // Add close animation
-            if (options.animation !== null && options.animation.close !== null) {
-
-              // Remove open animation class
-              item.className = item.className.replace(new RegExp('(?:^|\\s)' + options.animation.open + '(?:\\s|$)'), ' ');
-              // Add close animation class
-              item.className += ' ' + options.animation.close;
-
-              // Close notification after 0.5s + timeout
-              var close_time = parseInt(options.timeout) + 500;
-              setTimeout(function () {
-                helper.CloseItem(item);
-              }, close_time);
-            } else {
-              // Close notification when progress bar completed
-              helper.CloseItem(item);
-            }
-          } else {
-            width--;
-            bar.style.width = width + '%';
-          }
-        };
-
-        var width = 100;
-        var id = setInterval(frame, options.timeout);
-      }
-
-      return element;
-    }
-  }]);
-
-  return Components;
-}();
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -432,6 +218,233 @@ var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(noticeJsHe
 
     document.querySelector(target_class).appendChild(noticeJsItem);
 };
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _noticejs = __webpack_require__(3);
+
+var _noticejs2 = _interopRequireDefault(_noticejs);
+
+var _api = __webpack_require__(0);
+
+var API = _interopRequireWildcard(_api);
+
+var _components = __webpack_require__(4);
+
+var _helpers = __webpack_require__(1);
+
+var helper = _interopRequireWildcard(_helpers);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var NoticeJs = function () {
+  /**
+   * @param {object} options 
+   * @returns {Noty}
+   */
+  function NoticeJs() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, NoticeJs);
+
+    this.options = Object.assign(API.Defaults, options);
+    this.component = new _components.Components();
+
+    return this;
+  }
+
+  _createClass(NoticeJs, [{
+    key: 'show',
+    value: function show() {
+      var container = this.component.createContainer();
+      if (document.querySelector('.noticejs-' + this.options.position) === null) {
+        document.body.appendChild(container);
+      }
+
+      var noticeJsHeader = void 0;
+      var noticeJsBody = void 0;
+      var noticeJsProgressBar = void 0;
+
+      // Create NoticeJs header
+      noticeJsHeader = this.component.createHeader(this.options.title, this.options.closeWith);
+
+      // Create NoticeJs body
+      noticeJsBody = this.component.createBody(this.options.text);
+
+      // Create NoticeJs progressBar
+      if (this.options.progressBar === true) {
+        noticeJsProgressBar = this.component.createProgressBar();
+      }
+
+      //Append NoticeJs
+      helper.appendNoticeJs(noticeJsHeader, noticeJsBody, noticeJsProgressBar);
+    }
+  }]);
+
+  return NoticeJs;
+}();
+
+exports.default = NoticeJs;
+module.exports = exports['default'];
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Components = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _api = __webpack_require__(0);
+
+var API = _interopRequireWildcard(_api);
+
+var _helpers = __webpack_require__(1);
+
+var helper = _interopRequireWildcard(_helpers);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var options = API.Defaults;
+
+var Components = exports.Components = function () {
+  function Components() {
+    _classCallCheck(this, Components);
+  }
+
+  _createClass(Components, [{
+    key: 'createContainer',
+    value: function createContainer() {
+      var element_class = 'noticejs-' + options.position;
+      // Create element
+      var element = document.createElement('div');
+      element.classList.add('noticejs');
+      element.classList.add(element_class);
+
+      return element;
+    }
+  }, {
+    key: 'createHeader',
+    value: function createHeader() {
+      var element = void 0;
+      if (options.title && options.title !== '') {
+        element = document.createElement('div');
+        element.setAttribute('class', 'noticejs-heading');
+        element.textContent = options.title;
+      }
+
+      // Add close button
+      if (options.closeWith.includes('button')) {
+        var close = document.createElement('div');
+        close.setAttribute('class', 'close');
+        close.innerHTML = '&times;';
+        if (element) {
+          element.appendChild(close);
+        } else {
+          element = close;
+        }
+      }
+
+      return element;
+    }
+  }, {
+    key: 'createBody',
+    value: function createBody() {
+      var element = document.createElement('div');
+      element.setAttribute('class', 'noticejs-body');
+      var content = document.createElement('div');
+      content.setAttribute('class', 'noticejs-content');
+      content.innerHTML = options.text;
+      element.appendChild(content);
+
+      if (options.scroll !== null && options.scroll.maxHeight !== '') {
+        element.style.overflowY = 'auto';
+        element.style.maxHeight = options.scroll.maxHeight + 'px';
+
+        if (options.scroll.showOnHover === true) {
+          element.style.visibility = 'hidden';
+        }
+      }
+      return element;
+    }
+  }, {
+    key: 'createProgressBar',
+    value: function createProgressBar() {
+      var element = document.createElement('div');
+      element.setAttribute('class', 'noticejs-progressbar');
+      var bar = document.createElement('div');
+      bar.setAttribute('class', 'noticejs-bar');
+      element.appendChild(bar);
+
+      // Progress bar animation
+      if (options.progressBar === true && typeof options.timeout !== 'boolean' && options.timeout !== false) {
+        var frame = function frame() {
+          if (width <= 0) {
+            clearInterval(id);
+
+            var item = element.closest('div.item');
+            // Add close animation
+            if (options.animation !== null && options.animation.close !== null) {
+
+              // Remove open animation class
+              item.className = item.className.replace(new RegExp('(?:^|\\s)' + options.animation.open + '(?:\\s|$)'), ' ');
+              // Add close animation class
+              item.className += ' ' + options.animation.close;
+
+              // Close notification after 0.5s + timeout
+              var close_time = parseInt(options.timeout) + 500;
+              setTimeout(function () {
+                helper.CloseItem(item);
+              }, close_time);
+            } else {
+              // Close notification when progress bar completed
+              helper.CloseItem(item);
+            }
+          } else {
+            width--;
+            bar.style.width = width + '%';
+          }
+        };
+
+        var width = 100;
+        var id = setInterval(frame, options.timeout);
+      }
+
+      return element;
+    }
+  }]);
+
+  return Components;
+}();
 
 /***/ })
 /******/ ]);

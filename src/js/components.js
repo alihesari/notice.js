@@ -20,7 +20,7 @@ export class Components {
         options.title !== ''
     ) {
       element = document.createElement('div');
-      element.setAttribute('class', 'heading');
+      element.setAttribute('class', 'noticejs-heading');
       element.textContent = options.title;
     }
     
@@ -41,16 +41,30 @@ export class Components {
 
   createBody () {
     let element = document.createElement('div');
-    element.setAttribute('class', 'body');
-    element.innerHTML = options.text;
+    element.setAttribute('class', 'noticejs-body');
+    let content = document.createElement('div');
+    content.setAttribute('class', 'noticejs-content');
+    content.innerHTML = options.text;
+    element.appendChild(content);
+    
+    if(options.scroll !== null &&
+      options.scroll.maxHeight !== ''
+    ){
+      element.style.overflowY = 'auto';
+      element.style.maxHeight = options.scroll.maxHeight + 'px';
+
+      if(options.scroll.showOnHover === true) {
+        element.style.visibility = 'hidden';
+      }
+    }
     return element;
   }
 
   createProgressBar () {
     let element = document.createElement('div');
-    element.setAttribute('class','progressbar');
+    element.setAttribute('class','noticejs-progressbar');
     let bar = document.createElement('div');
-    bar.setAttribute('class','bar');
+    bar.setAttribute('class','noticejs-bar');
     element.appendChild(bar);
     
     // Progress bar animation
