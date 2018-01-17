@@ -354,7 +354,7 @@ var CloseItem = exports.CloseItem = function CloseItem(item) {
     }, 200);
 
     // Close modal
-    if (options.modal === true && document.querySelectorAll("[noticejs-modal='true']").length <= 1) {
+    if (options.modal === true && document.querySelectorAll("[noticejs-modal='true']").length >= 1) {
         document.querySelector('.noticejs-modal').className += ' noticejs-modal-close';
         setTimeout(function () {
             document.querySelector('.noticejs-modal').remove();

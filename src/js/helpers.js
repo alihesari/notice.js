@@ -29,7 +29,9 @@ export const CloseItem = (item) => {
     }, 200);
 
     // Close modal
-    if (options.modal === true && document.querySelectorAll("[noticejs-modal='true']").length <= 1) {
+    if (options.modal === true && 
+        document.querySelectorAll("[noticejs-modal='true']").length >= 1
+    ) {
         document.querySelector('.noticejs-modal').className += ' noticejs-modal-close';
         setTimeout(() => {
             document.querySelector('.noticejs-modal').remove();
