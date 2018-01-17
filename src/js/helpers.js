@@ -16,18 +16,15 @@ export const AddModal = () => {
 
 export const CloseItem = (item) => {
     // Set animation to close notification item
-    let closeAnimation = API.closeAnimation;
     if (options.animation !== null && 
         options.animation.close !== null
     ) {
-        closeAnimation = options.animation.close;
+        item.className += ' ' + options.animation.close;
     }
-    // Close notification item
-    item.className += ' ' + closeAnimation;
     setTimeout(() => {
         item.remove();
     }, 200);
-
+    
     // Close modal
     if (options.modal === true && 
         document.querySelectorAll("[noticejs-modal='true']").length >= 1
@@ -37,6 +34,14 @@ export const CloseItem = (item) => {
             document.querySelector('.noticejs-modal').remove();
         }, 500);
     }
+    
+    // Remove container
+    let position = '.' + item.closest('.noticejs').className.replace('noticejs','').trim();
+    setTimeout(() => {
+        if(document.querySelectorAll(position + ' .item').length <= 0) {
+            document.querySelector(position).remove();
+        }
+    }, 500);
 }
 
 export const addListener = (item) => {

@@ -348,12 +348,9 @@ var AddModal = exports.AddModal = function AddModal() {
 
 var CloseItem = exports.CloseItem = function CloseItem(item) {
     // Set animation to close notification item
-    var closeAnimation = API.closeAnimation;
     if (options.animation !== null && options.animation.close !== null) {
-        closeAnimation = options.animation.close;
+        item.className += ' ' + options.animation.close;
     }
-    // Close notification item
-    item.className += ' ' + closeAnimation;
     setTimeout(function () {
         item.remove();
     }, 200);
@@ -365,6 +362,14 @@ var CloseItem = exports.CloseItem = function CloseItem(item) {
             document.querySelector('.noticejs-modal').remove();
         }, 500);
     }
+
+    // Remove container
+    var position = '.' + item.closest('.noticejs').className.replace('noticejs', '').trim();
+    setTimeout(function () {
+        if (document.querySelectorAll(position + ' .item').length <= 0) {
+            document.querySelector(position).remove();
+        }
+    }, 500);
 };
 
 var addListener = exports.addListener = function addListener(item) {
