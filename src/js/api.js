@@ -11,5 +11,15 @@ export let Defaults = {
     closeWith: ['button'],
     animation: null,
     modal: false,
-    scroll: null
+    scroll: null,
+    callbacks: {
+        beforeShow: [],
+        onShow: [],
+        afterShow: [],
+        onClose: [],
+        afterClose: [],
+        onClick: [],
+        onHover: [],
+        onTemplate: []
+    }
 }

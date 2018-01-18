@@ -16,7 +16,7 @@ export const AddModal = () => {
 
 export const CloseItem = (item) => {
     // Set animation to close notification item
-    if (options.animation !== null && 
+    if (options.animation !== null &&
         options.animation.close !== null
     ) {
         item.className += ' ' + options.animation.close;
@@ -24,9 +24,9 @@ export const CloseItem = (item) => {
     setTimeout(() => {
         item.remove();
     }, 200);
-    
+
     // Close modal
-    if (options.modal === true && 
+    if (options.modal === true &&
         document.querySelectorAll("[noticejs-modal='true']").length >= 1
     ) {
         document.querySelector('.noticejs-modal').className += ' noticejs-modal-close';
@@ -34,11 +34,11 @@ export const CloseItem = (item) => {
             document.querySelector('.noticejs-modal').remove();
         }, 500);
     }
-    
+
     // Remove container
-    let position = '.' + item.closest('.noticejs').className.replace('noticejs','').trim();
+    let position = '.' + item.closest('.noticejs').className.replace('noticejs', '').trim();
     setTimeout(() => {
-        if(document.querySelectorAll(position + ' .item').length <= 0) {
+        if (document.querySelectorAll(position + ' .item').length <= 0) {
             document.querySelector(position).remove();
         }
     }, 500);
@@ -56,7 +56,7 @@ export const addListener = (item) => {
     if (options.closeWith.includes('click')) {
         item.style.cursor = 'pointer';
         item.addEventListener('click', function (e) {
-            if(e.target.className !== 'close') {
+            if (e.target.className !== 'close') {
                 CloseItem(item);
             }
         });
@@ -69,38 +69,57 @@ export const appendNoticeJs = (noticeJsHeader, noticeJsBody, noticeJsProgressBar
     let noticeJsItem = document.createElement('div');
     noticeJsItem.classList.add('item');
     noticeJsItem.classList.add(options.type);
-  
+
     // Add Header
-    if(noticeJsHeader && noticeJsHeader !== '') {
-      noticeJsItem.appendChild(noticeJsHeader);
+    if (noticeJsHeader && noticeJsHeader !== '') {
+        noticeJsItem.appendChild(noticeJsHeader);
     }
-  
+
     // Add body
     noticeJsItem.appendChild(noticeJsBody);
-  
+
     // Add progress bar
-    if(noticeJsProgressBar && noticeJsProgressBar !== ''){
-      noticeJsItem.appendChild(noticeJsProgressBar);  
+    if (noticeJsProgressBar && noticeJsProgressBar !== '') {
+        noticeJsItem.appendChild(noticeJsProgressBar);
     }
-  
+
     // Empty top and bottom container
-    if(['top','bottom'].includes(options.position)){
-      document.querySelector(target_class).innerHTML = '';
+    if (['top', 'bottom'].includes(options.position)) {
+        document.querySelector(target_class).innerHTML = '';
     }
-  
+
     // Add open animation
-    if(options.animation !== null && options.animation.open !== null) {
-      noticeJsItem.className += ' ' + options.animation.open;
+    if (options.animation !== null && options.animation.open !== null) {
+        noticeJsItem.className += ' ' + options.animation.open;
     }
-  
+
     // Add Modal
-    if(options.modal === true) {
-      noticeJsItem.setAttribute('noticejs-modal','true');
-      AddModal();
+    if (options.modal === true) {
+        noticeJsItem.setAttribute('noticejs-modal', 'true');
+        AddModal();
     }
-  
+
     // Add Listener
     addListener(noticeJsItem, options.closeWith);
 
     document.querySelector(target_class).appendChild(noticeJsItem);
-  }
+
+    getCallbacks(options, 'onShow');
+
+    return noticeJsItem;
+}
+
+/**
+ * @param {NoticeJs} ref
+ * @param {string} eventName
+ * @return {void}
+ */
+export function getCallbacks(ref, eventName) {
+    if (ref.callbacks.hasOwnProperty(eventName)) {
+        ref.callbacks[eventName].forEach(cb => {
+            if (typeof cb === 'function') {
+                cb.apply(ref)
+            }
+        })
+    }
+}

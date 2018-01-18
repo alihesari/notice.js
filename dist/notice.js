@@ -96,7 +96,17 @@ var Defaults = exports.Defaults = {
     closeWith: ['button'],
     animation: null,
     modal: false,
-    scroll: null
+    scroll: null,
+    callbacks: {
+        beforeShow: [],
+        onShow: [],
+        afterShow: [],
+        onClose: [],
+        afterClose: [],
+        onClick: [],
+        onHover: [],
+        onTemplate: []
+    }
 };
 
 /***/ }),
@@ -110,6 +120,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.appendNoticeJs = exports.addListener = exports.CloseItem = exports.AddModal = undefined;
+exports.getCallbacks = getCallbacks;
 
 var _api = __webpack_require__(0);
 
@@ -217,7 +228,26 @@ var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(noticeJsHe
     addListener(noticeJsItem, options.closeWith);
 
     document.querySelector(target_class).appendChild(noticeJsItem);
+
+    getCallbacks(options, 'onShow');
+
+    return noticeJsItem;
 };
+
+/**
+ * @param {NoticeJs} ref
+ * @param {string} eventName
+ * @return {void}
+ */
+function getCallbacks(ref, eventName) {
+    if (ref.callbacks.hasOwnProperty(eventName)) {
+        ref.callbacks[eventName].forEach(function (cb) {
+            if (typeof cb === 'function') {
+                cb.apply(ref);
+            }
+        });
+    }
+}
 
 /***/ }),
 /* 2 */
@@ -265,8 +295,22 @@ var NoticeJs = function () {
     this.options = Object.assign(API.Defaults, options);
     this.component = new _components.Components();
 
+    this.on('beforeShow', this.options.callbacks.beforeShow);
+    this.on('onShow', this.options.callbacks.onShow);
+    this.on('afterShow', this.options.callbacks.afterShow);
+    this.on('onClose', this.options.callbacks.onClose);
+    this.on('afterClose', this.options.callbacks.afterClose);
+    this.on('onClick', this.options.callbacks.onClick);
+    this.on('onHover', this.options.callbacks.onHover);
+    this.on('onTemplate', this.options.callbacks.onTemplate);
+
     return this;
   }
+
+  /**
+   * @returns {NoticeJs}
+   */
+
 
   _createClass(NoticeJs, [{
     key: 'show',
@@ -292,7 +336,27 @@ var NoticeJs = function () {
       }
 
       //Append NoticeJs
-      helper.appendNoticeJs(noticeJsHeader, noticeJsBody, noticeJsProgressBar);
+      var noticeJs = helper.appendNoticeJs(noticeJsHeader, noticeJsBody, noticeJsProgressBar);
+
+      return noticeJs;
+    }
+
+    /**
+     * @param {string} eventName
+     * @param {function} cb
+     * @return {NoticeJs}
+     */
+
+  }, {
+    key: 'on',
+    value: function on(eventName) {
+      var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+
+      if (typeof cb === 'function' && this.options.callbacks.hasOwnProperty(eventName)) {
+        this.options.callbacks[eventName].push(cb);
+      }
+
+      return this;
     }
   }]);
 

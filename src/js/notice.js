@@ -13,9 +13,21 @@ export default class NoticeJs {
     this.options = Object.assign(API.Defaults, options);
     this.component = new Components();
     
+    this.on('beforeShow', this.options.callbacks.beforeShow);
+    this.on('onShow', this.options.callbacks.onShow);
+    this.on('afterShow', this.options.callbacks.afterShow);
+    this.on('onClose', this.options.callbacks.onClose);
+    this.on('afterClose', this.options.callbacks.afterClose);
+    this.on('onClick', this.options.callbacks.onClick);
+    this.on('onHover', this.options.callbacks.onHover);
+    this.on('onTemplate', this.options.callbacks.onTemplate);
+    
     return this;
   }
   
+  /**
+   * @returns {NoticeJs}
+   */
   show () {
     let container = this.component.createContainer();
     if (document.querySelector('.noticejs-' + this.options.position) === null) {
@@ -38,6 +50,22 @@ export default class NoticeJs {
     }
   
     //Append NoticeJs
-    helper.appendNoticeJs(noticeJsHeader, noticeJsBody, noticeJsProgressBar);
+    let noticeJs = helper.appendNoticeJs(noticeJsHeader, noticeJsBody, noticeJsProgressBar);
+
+    return noticeJs;
   }
+
+  /**
+   * @param {string} eventName
+   * @param {function} cb
+   * @return {NoticeJs}
+   */
+  on (eventName, cb = () => {}) {
+    if (typeof cb === 'function' && this.options.callbacks.hasOwnProperty(eventName)) {
+      this.options.callbacks[eventName].push(cb);
+    }
+    
+    return this;
+  }
+
 }
