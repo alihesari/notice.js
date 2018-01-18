@@ -1,6 +1,21 @@
 import * as API from './api';
 let options = API.Defaults;
 
+/**
+ * @param {NoticeJs} ref
+ * @param {string} eventName
+ * @return {void}
+ */
+export function getCallback(ref, eventName) {
+    if (ref.callbacks.hasOwnProperty(eventName)) {
+        ref.callbacks[eventName].forEach(cb => {
+            if (typeof cb === 'function') {
+                cb.apply(ref);
+            }
+        })
+    }
+}
+
 export const AddModal = () => {
     if (document.getElementsByClassName(API.noticeJsModalClassName).length <= 0) {
         let element = document.createElement('div');
@@ -15,6 +30,8 @@ export const AddModal = () => {
 }
 
 export const CloseItem = (item) => {
+    getCallback(options, 'onClose');
+    
     // Set animation to close notification item
     if (options.animation !== null &&
         options.animation.close !== null
@@ -57,10 +74,21 @@ export const addListener = (item) => {
         item.style.cursor = 'pointer';
         item.addEventListener('click', function (e) {
             if (e.target.className !== 'close') {
+                getCallback(options, 'onClick');
                 CloseItem(item);
             }
         });
+    } else {
+        item.addEventListener('click', function (e) {
+            if (e.target.className !== 'close') {
+                getCallback(options, 'onClick');
+            }
+        });
     }
+
+    item.addEventListener('mouseover', function(){
+        getCallback(options, 'onHover');
+    });
 }
 
 export const appendNoticeJs = (noticeJsHeader, noticeJsBody, noticeJsProgressBar) => {
@@ -102,24 +130,10 @@ export const appendNoticeJs = (noticeJsHeader, noticeJsBody, noticeJsProgressBar
     // Add Listener
     addListener(noticeJsItem, options.closeWith);
 
+    getCallback(options, 'beforeShow');
+    getCallback(options, 'onShow');
     document.querySelector(target_class).appendChild(noticeJsItem);
-
-    getCallbacks(options, 'onShow');
+    getCallback(options, 'afterShow');
 
     return noticeJsItem;
-}
-
-/**
- * @param {NoticeJs} ref
- * @param {string} eventName
- * @return {void}
- */
-export function getCallbacks(ref, eventName) {
-    if (ref.callbacks.hasOwnProperty(eventName)) {
-        ref.callbacks[eventName].forEach(cb => {
-            if (typeof cb === 'function') {
-                cb.apply(ref)
-            }
-        })
-    }
 }

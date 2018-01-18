@@ -120,7 +120,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.appendNoticeJs = exports.addListener = exports.CloseItem = exports.AddModal = undefined;
-exports.getCallbacks = getCallbacks;
+exports.getCallback = getCallback;
 
 var _api = __webpack_require__(0);
 
@@ -129,6 +129,21 @@ var API = _interopRequireWildcard(_api);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var options = API.Defaults;
+
+/**
+ * @param {NoticeJs} ref
+ * @param {string} eventName
+ * @return {void}
+ */
+function getCallback(ref, eventName) {
+    if (ref.callbacks.hasOwnProperty(eventName)) {
+        ref.callbacks[eventName].forEach(function (cb) {
+            if (typeof cb === 'function') {
+                cb.apply(ref);
+            }
+        });
+    }
+}
 
 var AddModal = exports.AddModal = function AddModal() {
     if (document.getElementsByClassName(API.noticeJsModalClassName).length <= 0) {
@@ -144,6 +159,8 @@ var AddModal = exports.AddModal = function AddModal() {
 };
 
 var CloseItem = exports.CloseItem = function CloseItem(item) {
+    getCallback(options, 'onClose');
+
     // Set animation to close notification item
     if (options.animation !== null && options.animation.close !== null) {
         item.className += ' ' + options.animation.close;
@@ -182,10 +199,21 @@ var addListener = exports.addListener = function addListener(item) {
         item.style.cursor = 'pointer';
         item.addEventListener('click', function (e) {
             if (e.target.className !== 'close') {
+                getCallback(options, 'onClick');
                 CloseItem(item);
             }
         });
+    } else {
+        item.addEventListener('click', function (e) {
+            if (e.target.className !== 'close') {
+                getCallback(options, 'onClick');
+            }
+        });
     }
+
+    item.addEventListener('mouseover', function () {
+        getCallback(options, 'onHover');
+    });
 };
 
 var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(noticeJsHeader, noticeJsBody, noticeJsProgressBar) {
@@ -227,27 +255,13 @@ var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(noticeJsHe
     // Add Listener
     addListener(noticeJsItem, options.closeWith);
 
+    getCallback(options, 'beforeShow');
+    getCallback(options, 'onShow');
     document.querySelector(target_class).appendChild(noticeJsItem);
-
-    getCallbacks(options, 'onShow');
+    getCallback(options, 'afterShow');
 
     return noticeJsItem;
 };
-
-/**
- * @param {NoticeJs} ref
- * @param {string} eventName
- * @return {void}
- */
-function getCallbacks(ref, eventName) {
-    if (ref.callbacks.hasOwnProperty(eventName)) {
-        ref.callbacks[eventName].forEach(function (cb) {
-            if (typeof cb === 'function') {
-                cb.apply(ref);
-            }
-        });
-    }
-}
 
 /***/ }),
 /* 2 */
@@ -302,7 +316,6 @@ var NoticeJs = function () {
     this.on('afterClose', this.options.callbacks.afterClose);
     this.on('onClick', this.options.callbacks.onClick);
     this.on('onHover', this.options.callbacks.onHover);
-    this.on('onTemplate', this.options.callbacks.onTemplate);
 
     return this;
   }

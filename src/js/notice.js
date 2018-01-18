@@ -20,7 +20,6 @@ export default class NoticeJs {
     this.on('afterClose', this.options.callbacks.afterClose);
     this.on('onClick', this.options.callbacks.onClick);
     this.on('onHover', this.options.callbacks.onHover);
-    this.on('onTemplate', this.options.callbacks.onTemplate);
     
     return this;
   }
