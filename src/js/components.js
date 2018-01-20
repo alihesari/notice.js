@@ -6,7 +6,6 @@ export class Components {
   
   createContainer () {
     let element_class = 'noticejs-' + options.position;
-    // Create element
     let element = document.createElement('div');
     element.classList.add('noticejs');
     element.classList.add(element_class);

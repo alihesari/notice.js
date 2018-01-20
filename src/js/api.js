@@ -11,7 +11,11 @@ export let Defaults = {
     closeWith: ['button'],
     animation: null,
     modal: false,
-    scroll: null,
+    scroll: {
+        maxHeight: 300,
+        showOnHover: true
+    },
+    rtl: false,
     callbacks: {
         beforeShow: [],
         onShow: [],

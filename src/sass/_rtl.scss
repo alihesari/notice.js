@@ -1,0 +1,13 @@
+.noticejs-rtl {
+    .noticejs-heading{
+        direction: rtl;
+    }
+    .close {
+        float: left !important;
+        margin-left: 7px;
+        margin-right: 0 !important;
+    }
+    .noticejs-content {
+        direction: rtl;
+    }
+}

@@ -97,6 +97,9 @@ export const appendNoticeJs = (noticeJsHeader, noticeJsBody, noticeJsProgressBar
     let noticeJsItem = document.createElement('div');
     noticeJsItem.classList.add('item');
     noticeJsItem.classList.add(options.type);
+    if(options.rtl === true) {
+        noticeJsItem.classList.add('noticejs-rtl');
+    }
 
     // Add Header
     if (noticeJsHeader && noticeJsHeader !== '') {

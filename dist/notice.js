@@ -96,7 +96,11 @@ var Defaults = exports.Defaults = {
     closeWith: ['button'],
     animation: null,
     modal: false,
-    scroll: null,
+    scroll: {
+        maxHeight: 300,
+        showOnHover: true
+    },
+    rtl: false,
     callbacks: {
         beforeShow: [],
         onShow: [],
@@ -222,6 +226,9 @@ var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(noticeJsHe
     var noticeJsItem = document.createElement('div');
     noticeJsItem.classList.add('item');
     noticeJsItem.classList.add(options.type);
+    if (options.rtl === true) {
+        noticeJsItem.classList.add('noticejs-rtl');
+    }
 
     // Add Header
     if (noticeJsHeader && noticeJsHeader !== '') {
@@ -422,7 +429,6 @@ var Components = exports.Components = function () {
     key: 'createContainer',
     value: function createContainer() {
       var element_class = 'noticejs-' + options.position;
-      // Create element
       var element = document.createElement('div');
       element.classList.add('noticejs');
       element.classList.add(element_class);
