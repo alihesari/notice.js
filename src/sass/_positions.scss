@@ -16,7 +16,7 @@
 */
 .noticejs-top{
   top: 0;
-  width: 100%;
+  width: 100% !important;
   .item{
     border-radius: 0 !important;
     margin: 0 !important;
@@ -53,7 +53,7 @@
 }
 .noticejs-bottom{
   bottom: 0;
-  width: 100%;
+  width: 100% !important;
   .item{
     border-radius: 0 !important;
     margin: 0 !important;
