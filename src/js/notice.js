@@ -67,4 +67,12 @@ export default class NoticeJs {
     return this;
   }
 
+  /**
+   * @param {Object} options 
+   * @return {Notice}
+   */
+  static overrideDefaults (options) {
+    this.options = Object.assign(API.Defaults, options);
+    return this
+  }
 }

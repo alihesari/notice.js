@@ -378,6 +378,18 @@ var NoticeJs = function () {
 
       return this;
     }
+
+    /**
+     * @param {Object} options 
+     * @return {Notice}
+     */
+
+  }], [{
+    key: 'overrideDefaults',
+    value: function overrideDefaults(options) {
+      this.options = Object.assign(API.Defaults, options);
+      return this;
+    }
   }]);
 
   return NoticeJs;
