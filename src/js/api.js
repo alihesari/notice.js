@@ -6,6 +6,7 @@ export let Defaults = {
     text: '',
     type: 'success',
     position: 'topRight',
+    newestOnTop: false,
     timeout: 30,
     progressBar: true,
     closeWith: ['button'],

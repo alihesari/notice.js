@@ -138,7 +138,11 @@ export const appendNoticeJs = (noticeJsHeader, noticeJsBody, noticeJsProgressBar
 
     getCallback(options, 'beforeShow');
     getCallback(options, 'onShow');
-    document.querySelector(target_class).appendChild(noticeJsItem);
+    if(options.newestOnTop === true) {
+        document.querySelector(target_class).insertAdjacentElement('afterbegin', noticeJsItem);
+    } else {
+        document.querySelector(target_class).appendChild(noticeJsItem);
+    }
     getCallback(options, 'afterShow');
 
     return noticeJsItem;

@@ -91,6 +91,7 @@ var Defaults = exports.Defaults = {
     text: '',
     type: 'success',
     position: 'topRight',
+    newestOnTop: false,
     timeout: 30,
     progressBar: true,
     closeWith: ['button'],
@@ -268,7 +269,11 @@ var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(noticeJsHe
 
     getCallback(options, 'beforeShow');
     getCallback(options, 'onShow');
-    document.querySelector(target_class).appendChild(noticeJsItem);
+    if (options.newestOnTop === true) {
+        document.querySelector(target_class).insertAdjacentElement('afterbegin', noticeJsItem);
+    } else {
+        document.querySelector(target_class).appendChild(noticeJsItem);
+    }
     getCallback(options, 'afterShow');
 
     return noticeJsItem;
