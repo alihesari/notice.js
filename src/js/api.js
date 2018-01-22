@@ -11,8 +11,9 @@ export let Defaults = {
     closeWith: ['button'],
     animation: null,
     modal: false,
+    width: 320,
     scroll: {
-        maxHeight: 300,
+        maxHeightContent: 300,
         showOnHover: true
     },
     rtl: false,

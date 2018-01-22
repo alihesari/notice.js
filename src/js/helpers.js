@@ -100,6 +100,9 @@ export const appendNoticeJs = (noticeJsHeader, noticeJsBody, noticeJsProgressBar
     if(options.rtl === true) {
         noticeJsItem.classList.add('noticejs-rtl');
     }
+    if(options.width !== '' && Number.isInteger(options.width)) {
+        noticeJsItem.style.width = options.width + 'px';
+    }
 
     // Add Header
     if (noticeJsHeader && noticeJsHeader !== '') {

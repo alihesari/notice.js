@@ -96,8 +96,9 @@ var Defaults = exports.Defaults = {
     closeWith: ['button'],
     animation: null,
     modal: false,
+    width: 320,
     scroll: {
-        maxHeight: 300,
+        maxHeightContent: 300,
         showOnHover: true
     },
     rtl: false,
@@ -228,6 +229,9 @@ var appendNoticeJs = exports.appendNoticeJs = function appendNoticeJs(noticeJsHe
     noticeJsItem.classList.add(options.type);
     if (options.rtl === true) {
         noticeJsItem.classList.add('noticejs-rtl');
+    }
+    if (options.width !== '' && Number.isInteger(options.width)) {
+        noticeJsItem.style.width = options.width + 'px';
     }
 
     // Add Header
