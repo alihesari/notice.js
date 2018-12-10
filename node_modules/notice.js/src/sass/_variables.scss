@@ -1,0 +1,52 @@
+$width: 320px;
+$max-height-content: 200px;
+$max-height-item: 500px;
+$font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$position: fixed;
+$z-index: 10050;
+$item-margin: 0 0 10px 0;
+$item-padding: 10px;
+$border-radius: 3px;
+$progressbar-height: 5px;
+
+$z-index-modal: 10000;
+$modal-bg: #000;
+$modal-opacity: .3;
+
+$types: (
+  // Success style
+  'success': (
+    'bg': #64ce83,
+    'heading-bg': #3da95c,
+    'text-color': #fff,
+    'progressbar-bg': #64ce83,
+    'progressbar-color': #3da95c
+  ),
+
+  // Info style
+  'info': (
+    'bg': #3ea2ff,
+    'heading-bg': #067cea,
+    'text-color': #fff,
+    'progressbar-bg': #3ea2ff,
+    'progressbar-color': #067cea
+  ),
+
+  // Warning style
+  'warning': (
+    'bg': #ff7f48,
+    'heading-bg': #f44e06,
+    'text-color': #fff,
+    'progressbar-bg': #ff7f48,
+    'progressbar-color': #f44e06
+  ),
+
+  // Error style
+  'error': (
+    'bg': #e74c3c,
+    'heading-bg': #ba2c1d,
+    'text-color': #fff,
+    'progressbar-bg': #e74c3c,
+    'progressbar-color': #ba2c1d
+  )
+);

@@ -1,44 +1,28 @@
 {
-  "name": "notice.js",
-  "description": "A beautiful and modern, yet fully customizable notification library",
-  "version": "0.4.0",
-  "author": "Ali Hesari",
-  "homepage": "https://github.com/alihesari/notice.js",
+  "name": "noticejs",
+  "version": "1.0.0",
+  "description": "Notice.js demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/alihesari/notice.js.git"
-  },
-  "scripts": {
-    "babel": "babel --presets es2015 src/js/notice.js -o dist/notice.js",
-    "dev": "webpack --progress --colors --watch --env dev"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.24.1",
-    "css-loader": "^0.28.7",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "node-sass": "^4.7.2",
-    "sass-loader": "^6.0.6",
-    "style-loader": "^0.19.1",
-    "webpack": "^3.10.0"
+    "url": "git+https://github.com/alihesari/notice.js.git"
   },
   "keywords": [
-    "notification",
     "notice",
-    "alert"
+    "notification",
+    "notify"
   ],
+  "author": "Ali Hesari",
   "license": "MIT",
-  "spm": {
-    "main": "notice.js",
-    "output": [
-      "noticejs.css"
-    ]
-  },
   "bugs": {
     "url": "https://github.com/alihesari/notice.js/issues"
+  },
+  "homepage": "https://github.com/alihesari/notice.js#readme",
+  "dependencies": {
+    "bootstrap": "^4.1.3",
+    "notice.js": "^0.4.0"
   }
 }
