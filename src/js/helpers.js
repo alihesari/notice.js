@@ -56,7 +56,7 @@ export const CloseItem = (item) => {
     let position = '.' + item.closest('.noticejs').className.replace('noticejs', '').trim();
     setTimeout(() => {
         if (document.querySelectorAll(position + ' .item').length <= 0) {
-            document.querySelector(position).remove();
+            document.querySelector(position) && document.querySelector(position).remove();
         }
     }, 500);
 }
