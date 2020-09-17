@@ -2,11 +2,10 @@
   "name": "notice.js",
   "description": "A beautiful and modern, yet fully customizable notification library",
   "version": "0.4.0",
-  "author": "Ali Hesari",
-  "homepage": "https://github.com/alihesari/notice.js",
+  "homepage": "https://github.com/amirjavadsharifian/notice.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/alihesari/notice.js.git"
+    "url": "git://github.com/amirjavadsharifian/notice.js.git"
   },
   "scripts": {
     "babel": "babel --presets es2015 src/js/notice.js -o dist/notice.js",
@@ -39,6 +38,6 @@
     ]
   },
   "bugs": {
-    "url": "https://github.com/alihesari/notice.js/issues"
+    "url": "https://github.com/amirjavadsharifian/notice.js/issues"
   }
 }
