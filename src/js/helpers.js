@@ -30,8 +30,15 @@ export const AddModal = () => {
 }
 
 export const CloseItem = (item) => {
+    // Clear progress bar interval timer to prevent duplicate close
+    let progressBar = item.querySelector('.noticejs-progressbar');
+    if (progressBar && progressBar.dataset.noticeIntervalId) {
+        clearInterval(parseInt(progressBar.dataset.noticeIntervalId));
+        progressBar.dataset.noticeIntervalId = '';
+    }
+
     getCallback(options, 'onClose');
-    
+
     // Set animation to close notification item
     if (options.animation !== null &&
         options.animation.close !== null

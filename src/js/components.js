@@ -3,7 +3,7 @@ import * as helper from './helpers';
 let options = API.Defaults;
 
 export class Components {
-  
+
   createContainer () {
     let element_class = 'noticejs-' + options.position;
     let element = document.createElement('div');
@@ -15,14 +15,14 @@ export class Components {
 
   createHeader () {
     let element;
-    if (options.title && 
+    if (options.title &&
         options.title !== ''
     ) {
       element = document.createElement('div');
       element.setAttribute('class', 'noticejs-heading');
       element.textContent = options.title;
     }
-    
+
     // Add close button
     if (options.closeWith.includes('button')) {
       let close = document.createElement('div');
@@ -34,7 +34,7 @@ export class Components {
         element = close;
       }
     }
-    
+
     return element;
   }
 
@@ -45,7 +45,7 @@ export class Components {
     content.setAttribute('class', 'noticejs-content');
     content.innerHTML = options.text;
     element.appendChild(content);
-    
+
     if(options.scroll !== null &&
       options.scroll.maxHeight !== ''
     ){
@@ -65,46 +65,50 @@ export class Components {
     let bar = document.createElement('div');
     bar.setAttribute('class','noticejs-bar');
     element.appendChild(bar);
-    
+
     // Progress bar animation
     if(options.progressBar === true &&
-      typeof options.timeout !== 'boolean' && 
+      typeof options.timeout !== 'boolean' &&
       options.timeout !== false
     ) {
       let width = 100;
-      let id = setInterval(frame, options.timeout);
+      let timer = setInterval(frame, options.timeout);
+      // Store interval ID on the element so it can be cleared when closing
+      element.dataset.noticeIntervalId = timer;
       function frame() {
         if (width <= 0) {
-          clearInterval(id);
-          
+          clearInterval(timer);
+          element.dataset.noticeIntervalId = '';
+
           let item = element.closest('div.item');
+          if (!item) return;
           // Add close animation
           if(options.animation !== null &&
             options.animation.close !== null
           ) {
-  
+
             // Remove open animation class
             item.className = item.className.replace(new RegExp('(?:^|\\s)'+ options.animation.open + '(?:\\s|$)'), ' ');
             // Add close animation class
             item.className += ' ' + options.animation.close;
-  
+
             // Close notification after 0.5s + timeout
             let close_time = parseInt(options.timeout) + 500;
             setTimeout(() => {
               helper.CloseItem(item);
             }, close_time);
-  
+
           } else {
             // Close notification when progress bar completed
             helper.CloseItem(item);
           }
         } else {
-          width--; 
-          bar.style.width = width + '%'; 
+          width--;
+          bar.style.width = width + '%';
         }
       }
     }
-  
+
     return element;
   }
 }
