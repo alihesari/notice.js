@@ -1,45 +1,52 @@
 name: Release
 
-# Note: Requires NPM_TOKEN secret to be set in GitHub repository settings
-# Go to Settings > Secrets and variables > Actions > New repository secret
-# Name: NPM_TOKEN
-# Value: Your npm access token (generate at https://www.npmjs.com/settings/[your-username]/tokens)
+# Runs when a version tag (for example v1.0.0) is pushed.
+# Publishing uses npm trusted publishing (OIDC): on npmjs.com, open the package settings,
+# then Trusted Publisher, and add GitHub Actions with repository alihesari/notice.js and
+# workflow release.yml. No long-lived token is needed. Until that is set up, an NPM_TOKEN
+# repository secret is used instead.
 
 on:
   push:
-    tags:
-      - 'v*'
+    tags: ['v*']
+
+permissions:
+  contents: read
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: npm
     permissions:
-      contents: write
-      id-token: write
-
+      contents: write # create the GitHub release
+      id-token: write # npm provenance and trusted publishing
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20.x'
-        registry-url: 'https://registry.npmjs.org'
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Build project
-      run: npm run build
-
-    - name: Publish to npm
-      run: npm publish --access public
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1
-      with:
-        generate_release_notes: true
-
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - name: Check tag matches package.json
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $version"
+            exit 1
+          fi
+      - run: npm ci
+      - run: npm run check
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v3
+        with:
+          generate_release_notes: true
+          files: |
+            dist/notice.js
+            dist/noticejs.css
+            dist/index.mjs
+            dist/index.cjs
+            dist/index.d.ts

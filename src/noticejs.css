@@ -1,0 +1,320 @@
+/*
+ * notice.js stylesheet.
+ * Every colour and size is a custom property, so themes only need to override variables:
+ *   :root { --noticejs-success-bg: #0f766e; --noticejs-radius: 12px; }
+ * Default colours keep white text above WCAG AA contrast (4.5:1).
+ */
+:root {
+  --noticejs-font-family:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --noticejs-font-size: 14px;
+  --noticejs-width: 320px;
+  --noticejs-offset: 12px;
+  --noticejs-gap: 10px;
+  --noticejs-padding: 10px 12px;
+  --noticejs-radius: 6px;
+  --noticejs-shadow: 0 6px 20px rgb(0 0 0 / 0.18);
+  --noticejs-z-index: 10050;
+  --noticejs-text: #fff;
+  --noticejs-progress-height: 4px;
+  --noticejs-focus-ring: 0 0 0 3px rgb(255 255 255 / 0.85);
+
+  --noticejs-success-bg: #1f7a3d;
+  --noticejs-success-accent: #176632;
+  --noticejs-info-bg: #0b62c4;
+  --noticejs-info-accent: #0a4f9e;
+  --noticejs-warning-bg: #b54708;
+  --noticejs-warning-accent: #933a06;
+  --noticejs-error-bg: #c62828;
+  --noticejs-error-accent: #9f1f1f;
+
+  --noticejs-modal-bg: #000;
+  --noticejs-modal-opacity: 0.35;
+  --noticejs-modal-z-index: 10000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --noticejs-shadow: 0 6px 24px rgb(0 0 0 / 0.55);
+  }
+}
+
+/* Containers */
+.noticejs {
+  position: fixed;
+  z-index: var(--noticejs-z-index);
+  display: flex;
+  flex-direction: column;
+  gap: var(--noticejs-gap);
+  max-width: calc(100vw - 2 * var(--noticejs-offset));
+  font-family: var(--noticejs-font-family);
+  font-size: var(--noticejs-font-size);
+  line-height: 1.45;
+}
+
+.noticejs-top,
+.noticejs-bottom {
+  left: 0;
+  right: 0;
+  max-width: none;
+}
+.noticejs-top {
+  top: 0;
+}
+.noticejs-bottom {
+  bottom: 0;
+}
+
+.noticejs-topLeft,
+.noticejs-topCenter,
+.noticejs-topRight {
+  top: var(--noticejs-offset);
+}
+.noticejs-bottomLeft,
+.noticejs-bottomCenter,
+.noticejs-bottomRight {
+  bottom: var(--noticejs-offset);
+}
+.noticejs-topLeft,
+.noticejs-middleLeft,
+.noticejs-bottomLeft {
+  left: var(--noticejs-offset);
+}
+.noticejs-topRight,
+.noticejs-middleRight,
+.noticejs-bottomRight {
+  right: var(--noticejs-offset);
+}
+.noticejs-topCenter,
+.noticejs-bottomCenter {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.noticejs-middleLeft,
+.noticejs-middleRight {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.noticejs-middleCenter {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Notice */
+.noticejs-item {
+  --noticejs-bg: var(--noticejs-success-bg);
+  --noticejs-accent: var(--noticejs-success-accent);
+  box-sizing: border-box;
+  width: var(--noticejs-width);
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--noticejs-text);
+  background: var(--noticejs-bg);
+  border-radius: var(--noticejs-radius);
+  box-shadow: var(--noticejs-shadow);
+  touch-action: pan-y;
+}
+.noticejs-item.info {
+  --noticejs-bg: var(--noticejs-info-bg);
+  --noticejs-accent: var(--noticejs-info-accent);
+}
+.noticejs-item.warning {
+  --noticejs-bg: var(--noticejs-warning-bg);
+  --noticejs-accent: var(--noticejs-warning-accent);
+}
+.noticejs-item.error {
+  --noticejs-bg: var(--noticejs-error-bg);
+  --noticejs-accent: var(--noticejs-error-accent);
+}
+.noticejs-top .noticejs-item,
+.noticejs-bottom .noticejs-item {
+  width: 100%;
+  border-radius: 0;
+}
+.noticejs-item:focus-visible {
+  outline: none;
+  box-shadow: var(--noticejs-focus-ring), var(--noticejs-shadow);
+}
+
+.noticejs-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: var(--noticejs-padding);
+  font-weight: 600;
+  background: var(--noticejs-accent);
+}
+.noticejs-title {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.noticejs-close {
+  float: right;
+  margin: 6px 6px 0 6px;
+  padding: 0 4px;
+  font: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.85;
+}
+.noticejs-heading .noticejs-close {
+  float: none;
+  margin: 0;
+}
+.noticejs-close:hover {
+  opacity: 1;
+}
+.noticejs-close:focus-visible,
+.noticejs-action:focus-visible {
+  outline: none;
+  box-shadow: var(--noticejs-focus-ring);
+}
+
+.noticejs-body {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: var(--noticejs-padding);
+}
+.noticejs-content {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.noticejs-content a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.noticejs-actions {
+  display: flex;
+  flex-basis: 100%;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.noticejs-action {
+  padding: 4px 10px;
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  background: rgb(255 255 255 / 0.16);
+  border: 1px solid rgb(255 255 255 / 0.5);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.noticejs-action:hover {
+  background: rgb(255 255 255 / 0.28);
+}
+
+.noticejs-spinner {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  border: 2px solid rgb(255 255 255 / 0.35);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: noticejs-spin 0.8s linear infinite;
+}
+
+.noticejs-progressbar {
+  height: var(--noticejs-progress-height);
+  background: rgb(0 0 0 / 0.12);
+}
+.noticejs-bar {
+  height: 100%;
+  background: var(--noticejs-accent);
+  transform-origin: left;
+  animation-name: noticejs-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* Right-to-left */
+.noticejs-rtl {
+  direction: rtl;
+}
+.noticejs-rtl .noticejs-close {
+  float: left;
+}
+.noticejs-rtl .noticejs-bar {
+  transform-origin: right;
+}
+
+/* Modal overlay */
+.noticejs-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--noticejs-modal-z-index);
+  background: var(--noticejs-modal-bg);
+  opacity: var(--noticejs-modal-opacity);
+  animation: noticejs-modal-in 0.3s ease-out;
+}
+.noticejs-modal-close {
+  animation: noticejs-modal-out 0.3s ease-out forwards;
+}
+
+/* Animations */
+.noticejs-fadeIn {
+  animation: noticejs-fadeIn 0.2s ease-out;
+}
+.noticejs-fadeOut {
+  animation: noticejs-fadeOut 0.25s ease-in forwards;
+}
+
+@keyframes noticejs-fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes noticejs-fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes noticejs-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+@keyframes noticejs-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes noticejs-modal-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes noticejs-modal-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .noticejs-fadeIn,
+  .noticejs-fadeOut,
+  .noticejs-modal,
+  .noticejs-modal-close {
+    animation: none;
+  }
+  .noticejs-spinner {
+    animation-duration: 2.4s;
+  }
+}

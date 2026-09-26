@@ -1,255 +1,204 @@
-# Notice.js
+# notice.js
 
 [![npm version](https://img.shields.io/npm/v/notice.js.svg)](https://www.npmjs.com/package/notice.js)
-[![npm downloads](https://img.shields.io/npm/dm/notice.js.svg)](https://www.npmjs.com/package/notice.js)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub issues](https://img.shields.io/github/issues/alihesaridev/notice.js.svg)](https://github.com/alihesaridev/notice.js/issues)
-[![GitHub stars](https://img.shields.io/github/stars/alihesaridev/notice.js.svg)](https://github.com/alihesaridev/notice.js/stargazers)
+[![CI](https://github.com/alihesari/notice.js/actions/workflows/ci.yml/badge.svg)](https://github.com/alihesari/notice.js/actions/workflows/ci.yml)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/notice.js)](https://bundlephobia.com/package/notice.js)
+[![types](https://img.shields.io/npm/types/notice.js)](https://www.npmjs.com/package/notice.js)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-> A beautiful and modern, yet fully customizable notification library.
+> Tiny, dependency-free toast notifications. Typed, accessible, and safe by default.
 
-## 🎮 Try It Live
+**[Live demo → noticejs.com](https://noticejs.com)**
 
-- **[Interactive Demo](examples/demo.html)** - Comprehensive demo with all features (open `examples/demo.html` in your browser)
-- **[Online Demo](https://alihesaridev.github.io/notice.js/examples/demo.html)** - Live demo on GitHub Pages (if enabled)
+- **Written in TypeScript.** Types ship with the package, and there are ESM, CommonJS and `<script>` builds.
+- **Zero dependencies,** under 4 kB of JavaScript gzipped.
+- **Safe by default.** `text` is never parsed as HTML. Rich content is opt-in through `html`, with a sanitizer hook and Trusted Types support.
+- **Accessible.** Notices use ARIA live regions, a real `<button>` to close, and <kbd>Esc</kbd> to dismiss. The countdown pauses on hover, focus and hidden tabs, and animations respect `prefers-reduced-motion`.
+- **Modern API:** promise notices, action buttons, `update()` and `close()`, deduplication by `id`, and a `maxVisible` limit per position.
+- **Themeable** with CSS custom properties, plus 11 positions, RTL support, a modal overlay, swipe to dismiss, and custom animations (for example Animate.css).
 
-## Features
-
-- 🎨 Beautiful and customizable design
-- 📱 Responsive and mobile-friendly
-- ⚡ Lightweight and fast
-- 🎭 Support for CSS animations
-- ⏱️ Auto-close with configurable timeout
-- 📊 Progress bar indicator
-- 🎯 Multiple positions (topLeft, topRight, bottomLeft, bottomRight, etc.)
-- 🔔 Multiple notification types (success, error, warning, info)
-- 🌐 RTL (Right-to-Left) language support
-
-## Installation
-
-### NPM
+## Install
 
 ```bash
-npm install notice.js --save
+npm install notice.js
 ```
 
-### Direct Download
+```ts
+import { NoticeJs } from 'notice.js';
+import 'notice.js/noticejs.css';
 
-Download from [GitHub releases](https://github.com/alihesaridev/notice.js/releases) or [latest snapshot](https://github.com/alihesaridev/notice.js/archive/master.zip)
+NoticeJs.success('Profile saved');
+```
 
-## Quick Start
-
-### 1. Include Stylesheet
+Or use a `<script>` tag. It exposes `window.NoticeJs`:
 
 ```html
-<link rel="stylesheet" href="node_modules/notice.js/dist/noticejs.css" />
-<!-- or -->
-<link rel="stylesheet" href="dist/noticejs.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notice.js@1/dist/noticejs.css">
+<script src="https://cdn.jsdelivr.net/npm/notice.js@1/dist/notice.js"></script>
 ```
 
-### 2. Include Script
+## Usage
 
-```html
-<script src="node_modules/notice.js/dist/notice.js"></script>
-<!-- or -->
-<script src="dist/notice.js"></script>
-```
-
-### 3. Basic Usage
-
-```javascript
+```ts
 new NoticeJs({
-    text: 'Hello, World!',
-    position: 'topRight',
-}).show();
-```
-
-## Examples
-
-### Basic Notification
-
-```javascript
-new NoticeJs({
-    text: 'Operation completed successfully!',
-    position: 'topRight',
-    type: 'success'
-}).show();
-```
-
-### With Timeout
-
-The `timeout` option controls how long (in milliseconds) the notification stays visible. Set to `false` to disable auto-close.
-
-```javascript
-// Auto-close after 5 seconds
-new NoticeJs({
-    text: 'This will disappear in 5 seconds',
-    position: 'topRight',
-    timeout: 5000  // 5 seconds
+  title: 'Saved',
+  text: 'Your changes are live.',
+  type: 'success',          // 'success' | 'info' | 'warning' | 'error'
+  position: 'topRight',
+  timeout: 5000,            // total ms on screen, or false to stay until closed
 }).show();
 
-// Disable auto-close
+// Shortcuts
+NoticeJs.success('Done');
+NoticeJs.error('Something went wrong', { title: 'Error' });
+NoticeJs.warning('Disk almost full');
+NoticeJs.info('New version available');
+```
+
+### Promises
+
+A loading notice turns into a success or error notice when the promise settles. The original promise is returned, so you can still `await` it.
+
+```ts
+const user = await NoticeJs.promise(saveProfile(), {
+  loading: 'Saving…',
+  success: (user) => `Saved ${user.name}`,
+  error: (err) => ({ title: 'Save failed', text: (err as Error).message }),
+});
+```
+
+### Actions
+
+```ts
 new NoticeJs({
-    text: 'This stays until manually closed',
-    position: 'topRight',
-    timeout: false
+  text: 'Email archived',
+  actions: [
+    { label: 'Undo', onClick: () => restoreEmail() },
+    { label: 'Details', onClick: openDetails, closeOnClick: false },
+  ],
 }).show();
 ```
 
-### With Title
+### Updating, closing and deduplicating
 
-```javascript
-new NoticeJs({
-    title: 'Success',
-    text: 'Your changes have been saved!',
-    position: 'topRight',
-    type: 'success'
-}).show();
+```ts
+const notice = new NoticeJs({ text: 'Uploading…', timeout: false }).show();
+notice.update({ text: 'Uploaded', type: 'success', timeout: 3000 });
+await notice.close();
+
+// Showing a notice whose id is already on screen updates that notice instead of stacking a copy.
+new NoticeJs({ id: 'offline', text: 'You are offline', type: 'warning' }).show();
+
+NoticeJs.closeAll();             // or NoticeJs.closeAll('bottomLeft')
+NoticeJs.get('offline')?.close();
 ```
 
-### With Animation
+### Rich content, safely
 
-Notice.js supports CSS animations. Works great with [Animate.css](https://animate.style/):
+`text` is always rendered with `textContent`, so user input can go straight in. Use `html` only for markup you control, or pass a sanitizer:
 
-```javascript
-new NoticeJs({
-    text: 'Notification with animation',
-    position: 'topLeft',
-    animation: {
-        open: 'animated bounceInRight',
-        close: 'animated bounceOutLeft'
-    }
-}).show();
+```ts
+import DOMPurify from 'dompurify';
+
+new NoticeJs({ html: markdownToHtml(comment), sanitize: DOMPurify.sanitize }).show();
+
+// A DOM node is inserted as-is
+new NoticeJs({ html: myElement }).show();
 ```
 
-### With Progress Bar
+On pages that enforce [Trusted Types](https://developer.mozilla.org/docs/Web/API/Trusted_Types_API), have `sanitize` return a `TrustedHTML` value from your policy.
 
-```javascript
-new NoticeJs({
-    text: 'Loading...',
-    position: 'topRight',
-    progressBar: true,
-    timeout: 3000  // Progress bar shows countdown
-}).show();
-```
+## Options
 
-### Different Types
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | `''` | Heading text. |
+| `text` | `string` | `''` | Plain-text message. |
+| `html` | `string \| Node \| null` | `null` | Rich content, used instead of `text`. Strings go through `sanitize`. |
+| `sanitize` | `(html) => string \| TrustedHTML` | `null` | Sanitizer for `html` strings. |
+| `type` | `'success' \| 'info' \| 'warning' \| 'error'` | `'success'` | Colour and ARIA role. |
+| `position` | see [Positions](#positions) | `'topRight'` | Where the notice appears. |
+| `timeout` | `number \| false` | `3000` | Total time on screen in ms. `false` keeps the notice until it is closed. |
+| `progressBar` | `boolean` | `true` | Show the countdown bar. |
+| `closeWith` | `('button' \| 'click' \| 'swipe')[]` | `['button', 'swipe']` | How users can dismiss the notice. <kbd>Esc</kbd> always works while focus is inside it. |
+| `pauseOnHover` | `boolean` | `true` | Pause the countdown on hover and focus. |
+| `pauseOnFocusLoss` | `boolean` | `true` | Pause the countdown while the tab is hidden. |
+| `actions` | `{ label, onClick?, className?, closeOnClick? }[]` | `[]` | Action buttons. |
+| `id` | `string` | auto | Stable id for deduplication and `NoticeJs.get()`. |
+| `maxVisible` | `number \| null` | `null` | Notice limit for this position. The oldest close first. |
+| `newestOnTop` | `boolean` | `false` | Insert new notices first. |
+| `modal` | `boolean` | `false` | Dim the page and move focus to the notice. |
+| `animation` | `{ open?, close? } \| null` | `null` | CSS classes for enter and exit animations. |
+| `width` | `number \| string \| null` | `320` | Width in px, or any CSS length. |
+| `maxHeight` | `number \| null` | `null` | Max body height in px before the content scrolls. |
+| `rtl` | `boolean` | `false` | Right-to-left layout. |
+| `loading` | `boolean` | `false` | Show a spinner. |
+| `className` | `string` | `''` | Extra classes for the notice element. |
+| `ariaLive` | `'polite' \| 'assertive' \| 'off'` | from `type` | Override the announcement politeness. |
+| `callbacks` | `{ [event]: fn \| fn[] }` | `{}` | Lifecycle callbacks, see below. |
 
-```javascript
-// Success
-new NoticeJs({
-    text: 'Operation successful!',
-    type: 'success',
-    position: 'topRight'
-}).show();
+Set defaults for every notice with `NoticeJs.overrideDefaults({ position: 'bottomRight' })`. `NoticeJs.resetDefaults()` restores them.
 
-// Error
-new NoticeJs({
-    text: 'Something went wrong!',
-    type: 'error',
-    position: 'topRight'
-}).show();
+### Positions
 
-// Warning
-new NoticeJs({
-    text: 'Please check your input',
-    type: 'warning',
-    position: 'topRight'
-}).show();
+`topLeft`, `topCenter`, `topRight`, `middleLeft`, `middleCenter`, `middleRight`, `bottomLeft`, `bottomCenter` and `bottomRight`, plus the full-width bars `top` and `bottom`, which show one notice at a time.
 
-// Info
-new NoticeJs({
-    text: 'New update available',
-    type: 'info',
-    position: 'topRight'
-}).show();
-```
+### Instance API
+
+| Member | Description |
+| --- | --- |
+| `show()` | Render the notice. Returns the notice, or the already-visible notice with the same `id`. |
+| `update(options)` | Change content or behaviour. The notice re-renders and its countdown restarts. |
+| `close()` | Close the notice. Returns a promise that resolves once it has been removed. |
+| `pause()` / `resume()` | Stop and restart the countdown. |
+| `on(event, fn)` / `off(event, fn?)` | Add or remove callbacks. |
+| `element`, `id`, `options`, `isVisible` | Current state. |
 
 ### Callbacks
 
-```javascript
+`beforeShow`, `onShow`, `afterShow`, `onClose`, `afterClose`, `onClick` and `onHover`. Each callback is called once, with the notice as both `this` and its first argument.
+
+```ts
 new NoticeJs({
-    text: 'Notification with callbacks',
-    position: 'topRight',
-    callbacks: {
-        onShow: function() {
-            console.log('Notification shown!');
-        },
-        onClose: function() {
-            console.log('Notification closed!');
-        }
-    }
+  text: 'Hello',
+  callbacks: { afterClose: (notice) => console.log(`${notice.id} closed`) },
 }).show();
 ```
 
-## Configuration Options
+## Theming
 
-| Option | Type | Default | Description |
-|-------|------|---------|-------------|
-| `text` | string | `''` | Notification message text |
-| `title` | string | `''` | Notification title (optional) |
-| `type` | string | `'success'` | Notification type: `success`, `error`, `warning`, `info` |
-| `position` | string | `'topRight'` | Position: `topLeft`, `topRight`, `bottomLeft`, `bottomRight` |
-| `timeout` | number/boolean | `30` | Auto-close timeout in milliseconds. Set to `false` to disable. |
-| `progressBar` | boolean | `true` | Show progress bar countdown |
-| `closeWith` | array | `['button']` | Ways to close: `['button']`, `['click']`, or both `['button', 'click']` |
-| `animation` | object/null | `null` | Animation classes: `{ open: 'class', close: 'class' }` |
-| `newestOnTop` | boolean | `false` | Show newest notifications on top |
-| `rtl` | boolean | `false` | Right-to-Left language support |
+Every colour and size is a CSS custom property:
 
-## Positions
+```css
+:root {
+  --noticejs-success-bg: #0f766e;
+  --noticejs-success-accent: #115e59;
+  --noticejs-radius: 12px;
+  --noticejs-width: 360px;
+  --noticejs-font-family: 'Inter', sans-serif;
+}
+```
 
-- `topLeft`
-- `topRight`
-- `bottomLeft`
-- `bottomRight`
+See [`src/noticejs.css`](src/noticejs.css) for the full list. The default colours keep white text above WCAG AA contrast.
 
-## Browser Support
+## Upgrading from 0.x
 
-Notice.js works in all modern browsers:
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- IE11+ (with polyfills)
+1.0.0 includes breaking changes. The [changelog](CHANGELOG.md#migrating-from-05x) has the full migration guide. In short:
+
+- `timeout` is now the **total time in milliseconds** (default `3000`). It used to be a per-step delay, where `30` meant 3 seconds. Multiply old values by 100.
+- `text` is plain text. Pass markup through `html` instead.
+- `show()` returns the notice instance. The element is available as `notice.element`.
+- The `scroll` option is replaced by `maxHeight`.
+- IE11 is no longer supported.
+
+## Browser support
+
+The last two versions of Chrome, Edge, Firefox and Safari. The library is safe to import during server-side rendering, because the DOM is only touched in `show()`.
 
 ## Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) first.
+See [CONTRIBUTING.md](CONTRIBUTING.md). To report a security issue, see [SECURITY.md](SECURITY.md).
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details.
-
-## Testing & Examples
-
-You can test notice.js locally by opening `examples/demo.html` in your browser:
-
-```bash
-# After building the project
-npm run build
-
-# Open examples/demo.html in your browser
-open examples/demo.html  # macOS
-# or just double-click examples/demo.html
-```
-
-The demo includes interactive examples of all features including:
-- All notification types (success, error, warning, info)
-- Different positions
-- Timeout controls
-- Progress bars
-- Animations
-- Callbacks
-- And more!
-
-## Repository
-
-- GitHub: [https://github.com/alihesaridev/notice.js](https://github.com/alihesaridev/notice.js)
-- Issues: [https://github.com/alihesaridev/notice.js/issues](https://github.com/alihesaridev/notice.js/issues)
-- Demo: [examples/demo.html](examples/demo.html)
-
-
-
-
-
+[MIT](LICENSE) © [Ali Hesari](https://alihesari.com)

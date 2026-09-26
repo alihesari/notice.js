@@ -1,67 +1,112 @@
 {
   "name": "notice.js",
-  "description": "A beautiful and modern, yet fully customizable notification library",
-  "version": "0.5.0",
-  "homepage": "https://github.com/alihesaridev/notice.js",
+  "version": "1.0.0",
+  "description": "A tiny, dependency-free, accessible and secure-by-default toast notification library written in TypeScript",
+  "homepage": "https://noticejs.com",
   "repository": {
     "type": "git",
-    "url": "git://github.com/alihesaridev/notice.js.git"
+    "url": "git+https://github.com/alihesari/notice.js.git"
   },
-  "scripts": {
-    "build": "webpack --mode production",
-    "build:dev": "webpack --mode development",
-    "dev": "webpack --mode development --watch --progress",
-    "prepublishOnly": "npm run build"
+  "bugs": {
+    "url": "https://github.com/alihesari/notice.js/issues"
   },
-  "main": "dist/notice.js",
-  "style": "dist/noticejs.css",
-  "types": "dist/notice.d.ts",
-  "files": [
-    "dist",
-    "src",
-    "README.md",
-    "LICENSE",
-    "CHANGELOG.md"
-  ],
-  "devDependencies": {
-    "@babel/core": "^7.23.7",
-    "@babel/preset-env": "^7.23.7",
-    "babel-loader": "^9.1.3",
-    "babel-plugin-add-module-exports": "^1.0.4",
-    "css-loader": "^6.8.1",
-    "mini-css-extract-plugin": "^2.7.6",
-    "sass": "^1.69.5",
-    "sass-loader": "^13.3.2",
-    "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4"
-  },
-  "keywords": [
-    "notification",
-    "notice",
-    "alert",
-    "toast",
-    "notification-library",
-    "notifications",
-    "toast-notification",
-    "ui",
-    "javascript",
-    "vanilla-js"
-  ],
   "author": {
     "name": "Ali Hesari",
     "url": "https://alihesari.com"
   },
   "license": "MIT",
-  "engines": {
-    "node": ">=12.0.0"
+  "sideEffects": [
+    "*.css",
+    "./dist/notice.js"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/notice.js",
+  "jsdelivr": "./dist/notice.js",
+  "style": "./dist/noticejs.css",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./noticejs.css": "./dist/noticejs.css",
+    "./style.css": "./dist/noticejs.css",
+    "./package.json": "./package.json"
   },
-  "spm": {
-    "main": "notice.js",
-    "output": [
-      "noticejs.css"
-    ]
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && tsup && esbuild src/noticejs.css --minify --outfile=dist/noticejs.css --log-level=warning",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "lint:pkg": "publint --strict",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "size": "size-limit",
+    "site": "npm run build && rm -rf site/dist && cp -r dist site/dist",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build && npm run lint:pkg && npm run size",
+    "prepublishOnly": "npm run check"
   },
-  "bugs": {
-    "url": "https://github.com/alihesaridev/notice.js/issues"
-  }
+  "keywords": [
+    "notification",
+    "notice",
+    "toast",
+    "alert",
+    "snackbar",
+    "typescript",
+    "accessible",
+    "a11y",
+    "vanilla-js",
+    "zero-dependency"
+  ],
+  "size-limit": [
+    {
+      "name": "ESM (gzip)",
+      "path": "dist/index.mjs",
+      "import": "{ NoticeJs }",
+      "limit": "4 kB",
+      "gzip": true
+    },
+    {
+      "name": "Browser bundle (gzip)",
+      "path": "dist/notice.js",
+      "limit": "4.5 kB",
+      "rolldown": false,
+      "gzip": true
+    },
+    {
+      "name": "CSS (gzip)",
+      "path": "dist/noticejs.css",
+      "limit": "2 kB",
+      "rolldown": false,
+      "gzip": true
+    }
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.14",
+    "@size-limit/preset-small-lib": "^14.0.1",
+    "@vitest/coverage-v8": "^5.0.2",
+    "esbuild": "^0.28.2",
+    "happy-dom": "^20.14.5",
+    "publint": "^0.3.24",
+    "size-limit": "^14.0.1",
+    "tsup": "^8.5.1",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.2"
+  },
+  "type": "commonjs"
 }

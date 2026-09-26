@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>notice.js: tiny, accessible toast notifications</title>
+  <meta name="description" content="A tiny, dependency-free, accessible and secure-by-default toast notification library written in TypeScript.">
+  <link rel="stylesheet" href="dist/noticejs.css">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f7f5;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --muted: #5c5c66;
+      --line: #e3e3e0;
+      --accent: #0b62c4;
+      --code-bg: #f0f0ed;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111113;
+        --surface: #1a1a1d;
+        --text: #ececef;
+        --muted: #a0a0aa;
+        --line: #2c2c31;
+        --accent: #6aa9ff;
+        --code-bg: #232327;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+    main { max-width: 920px; margin: 0 auto; padding: 48px 16px 96px; }
+    header h1 { font-size: clamp(2rem, 6vw, 3rem); margin: 0 0 8px; letter-spacing: -0.02em; }
+    header p { color: var(--muted); font-size: 1.1rem; margin: 0 0 20px; max-width: 60ch; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .badge { font-size: 13px; padding: 2px 10px; border: 1px solid var(--line); border-radius: 99px; color: var(--muted); }
+    section { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px; margin-top: 20px; }
+    h2 { font-size: 1.2rem; margin: 0 0 4px; }
+    section > p { color: var(--muted); margin: 0 0 16px; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 420px; }
+    button.demo {
+      font: inherit; font-size: 14px; padding: 8px 14px; cursor: pointer;
+      color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+    }
+    button.demo:hover { border-color: var(--accent); }
+    button.demo:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    pre {
+      margin: 16px 0 0; padding: 14px 16px; overflow-x: auto;
+      background: var(--code-bg); border-radius: 8px; font-size: 13px; line-height: 1.5;
+    }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    label { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
+    a { color: var(--accent); }
+    footer { margin-top: 40px; color: var(--muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>notice.js</h1>
+    <p>Tiny, dependency-free toast notifications. Typed, accessible, and safe by default.</p>
+    <div class="badges">
+      <span class="badge">TypeScript</span>
+      <span class="badge">0 dependencies</span>
+      <span class="badge">&lt; 4 kB JS gzipped</span>
+      <span class="badge">ARIA live regions</span>
+      <span class="badge">XSS-safe text</span>
+    </div>
+    <pre><code>npm install notice.js</code></pre>
+  </header>
+
+  <section>
+    <h2>Types</h2>
+    <p>Each type sets its own ARIA role: errors and warnings are announced immediately.</p>
+    <div class="row">
+      <button type="button" class="demo" data-type="success">Success</button>
+      <button type="button" class="demo" data-type="info">Info</button>
+      <button type="button" class="demo" data-type="warning">Warning</button>
+      <button type="button" class="demo" data-type="error">Error</button>
+    </div>
+    <pre><code>NoticeJs.success('Profile saved');
+new NoticeJs({ title: 'Heads up', text: 'Disk almost full', type: 'warning' }).show();</code></pre>
+  </section>
+
+  <section>
+    <h2>Positions</h2>
+    <p>Nine corners and edges, plus full-width <code>top</code> and <code>bottom</code> bars.</p>
+    <div class="grid" id="positions"></div>
+    <div class="row" style="margin-top:8px">
+      <button type="button" class="demo" data-position="top">top bar</button>
+      <button type="button" class="demo" data-position="bottom">bottom bar</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Promises</h2>
+    <p>Show a loading notice that becomes a success or error notice when the work finishes.</p>
+    <div class="row">
+      <button type="button" class="demo" id="promise-ok">Save (succeeds)</button>
+      <button type="button" class="demo" id="promise-fail">Delete (fails)</button>
+    </div>
+    <pre><code>await NoticeJs.promise(saveProfile(), {
+  loading: 'Saving…',
+  success: (user) => `Saved ${user.name}`,
+  error: (err) => ({ title: 'Save failed', text: err.message }),
+});</code></pre>
+  </section>
+
+  <section>
+    <h2>Actions</h2>
+    <p>Buttons inside the notice, for undo and retry flows.</p>
+    <div class="row"><button type="button" class="demo" id="actions">Archive email</button></div>
+    <pre><code>new NoticeJs({
+  text: 'Email archived',
+  actions: [{ label: 'Undo', onClick: () => restoreEmail() }],
+}).show();</code></pre>
+  </section>
+
+  <section>
+    <h2>Timing</h2>
+    <p>Hover, focus or switch tabs and the countdown pauses. On touch screens, swipe a notice away.</p>
+    <div class="row">
+      <button type="button" class="demo" id="timeout-5">5 second notice</button>
+      <button type="button" class="demo" id="sticky">Stay until closed</button>
+      <button type="button" class="demo" id="close-all">Close all</button>
+    </div>
+    <pre><code>new NoticeJs({ text: 'Back in 5', timeout: 5000 }).show();
+new NoticeJs({ text: 'I stay', timeout: false }).show();
+NoticeJs.closeAll();</code></pre>
+  </section>
+
+  <section>
+    <h2>No duplicates</h2>
+    <p>Give a notice an <code>id</code>, and showing it again updates the visible one instead of stacking a copy.</p>
+    <div class="row"><button type="button" class="demo" id="dedupe">Click me several times</button></div>
+    <pre><code>new NoticeJs({ id: 'offline', text: `Offline (retry ${n})`, type: 'warning' }).show();</code></pre>
+  </section>
+
+  <section>
+    <h2>Safe HTML</h2>
+    <p><code>text</code> is always plain text. Rich content goes through <code>html</code>, with an optional sanitizer such as DOMPurify.</p>
+    <div class="row">
+      <button type="button" class="demo" id="xss">Render untrusted input as text</button>
+      <button type="button" class="demo" id="html">Render sanitized HTML</button>
+    </div>
+    <pre><code>new NoticeJs({ text: userInput }).show();   // never parsed as HTML
+new NoticeJs({ html: markup, sanitize: DOMPurify.sanitize }).show();</code></pre>
+  </section>
+
+  <section>
+    <h2>More options</h2>
+    <p>Modal overlay, right-to-left text, custom animations, and theming with CSS variables.</p>
+    <div class="row">
+      <button type="button" class="demo" id="modal">Modal</button>
+      <button type="button" class="demo" id="rtl">RTL</button>
+      <button type="button" class="demo" id="animated">Animate.css</button>
+      <label><input type="checkbox" id="theme"> Teal theme</label>
+    </div>
+    <pre><code>:root {
+  --noticejs-success-bg: #0f766e;
+  --noticejs-success-accent: #115e59;
+  --noticejs-radius: 12px;
+}</code></pre>
+  </section>
+
+  <footer>
+    MIT licensed. <a href="https://github.com/alihesari/notice.js">GitHub</a> ·
+    <a href="https://www.npmjs.com/package/notice.js">npm</a> · Made by
+    <a href="https://alihesari.com">Ali Hesari</a>.
+  </footer>
+</main>
+
+<script src="dist/notice.js"></script>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  for (const button of document.querySelectorAll('[data-type]')) {
+    const type = button.dataset.type;
+    button.addEventListener('click', () =>
+      new NoticeJs({ title: type[0].toUpperCase() + type.slice(1), text: `${/^[aeiou]/.test(type) ? 'An' : 'A'} ${type} notification.`, type }).show(),
+    );
+  }
+
+  const positions = ['topLeft', 'topCenter', 'topRight', 'middleLeft', 'middleCenter', 'middleRight', 'bottomLeft', 'bottomCenter', 'bottomRight'];
+  for (const position of positions) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'demo';
+    button.dataset.position = position;
+    button.textContent = position;
+    $('positions').append(button);
+  }
+  for (const button of document.querySelectorAll('[data-position]')) {
+    button.addEventListener('click', () =>
+      new NoticeJs({ text: button.dataset.position, position: button.dataset.position, type: 'info' }).show(),
+    );
+  }
+
+  $('promise-ok').addEventListener('click', () =>
+    NoticeJs.promise(wait(1500).then(() => ({ name: 'Ada' })), {
+      loading: 'Saving profile…',
+      success: (user) => `Saved ${user.name}'s profile`,
+      error: 'Could not save',
+    }),
+  );
+  $('promise-fail').addEventListener('click', () =>
+    NoticeJs.promise(wait(1500).then(() => { throw new Error('Permission denied'); }), {
+      loading: 'Deleting project…',
+      success: 'Deleted',
+      error: (err) => ({ title: 'Delete failed', text: err.message }),
+    }).catch(() => {}),
+  );
+
+  $('actions').addEventListener('click', () =>
+    new NoticeJs({
+      text: 'Email archived',
+      type: 'info',
+      timeout: 6000,
+      actions: [{ label: 'Undo', onClick: () => NoticeJs.success('Email restored') }],
+    }).show(),
+  );
+
+  $('timeout-5').addEventListener('click', () => new NoticeJs({ text: 'Back in 5 seconds', timeout: 5000 }).show());
+  $('sticky').addEventListener('click', () => new NoticeJs({ title: 'Sticky', text: 'I stay until you close me.', timeout: false, type: 'info' }).show());
+  $('close-all').addEventListener('click', () => NoticeJs.closeAll());
+
+  let retries = 0;
+  $('dedupe').addEventListener('click', () =>
+    new NoticeJs({ id: 'offline', text: `You are offline (retry ${++retries})`, type: 'warning' }).show(),
+  );
+
+  $('xss').addEventListener('click', () => new NoticeJs({ text: '<img src=x onerror="alert(\'xss\')"> is shown as text', type: 'info' }).show());
+  $('html').addEventListener('click', () =>
+    new NoticeJs({
+      // biome-ignore lint/suspicious/noUselessEscapeInString: stops the HTML parser from ending this <script> early
+      html: 'Read the <a href="https://github.com/alihesari/notice.js#readme">docs</a> <script>alert(1)<\/script>',
+      // Tiny demo sanitizer. Use DOMPurify in real apps.
+      sanitize: (html) => html.replace(/<script[\s\S]*?<\/script>/gi, ''),
+      type: 'info',
+    }).show(),
+  );
+
+  $('modal').addEventListener('click', () =>
+    new NoticeJs({ title: 'Modal', text: 'The page behind is dimmed.', modal: true, timeout: false, position: 'middleCenter' }).show(),
+  );
+  $('rtl').addEventListener('click', () => new NoticeJs({ title: 'اعلان', text: 'این یک پیام راست‌به‌چپ است.', rtl: true, position: 'topLeft' }).show());
+
+  let animateLoaded = false;
+  $('animated').addEventListener('click', () => {
+    if (!animateLoaded) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css';
+      document.head.append(link);
+      animateLoaded = true;
+    }
+    new NoticeJs({
+      text: 'Animated with Animate.css',
+      animation: { open: 'animate__animated animate__bounceInRight', close: 'animate__animated animate__bounceOutRight' },
+    }).show();
+  });
+
+  $('theme').addEventListener('change', (event) => {
+    const style = document.documentElement.style;
+    if (event.target.checked) {
+      style.setProperty('--noticejs-success-bg', '#0f766e');
+      style.setProperty('--noticejs-success-accent', '#115e59');
+      style.setProperty('--noticejs-radius', '12px');
+    } else {
+      style.removeProperty('--noticejs-success-bg');
+      style.removeProperty('--noticejs-success-accent');
+      style.removeProperty('--noticejs-radius');
+    }
+    NoticeJs.success('Theme updated');
+  });
+</script>
+</body>
+</html>
