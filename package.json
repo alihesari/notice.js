@@ -73,9 +73,6 @@
     "vanilla-js",
     "zero-dependency"
   ],
-  "engines": {
-    "node": ">=20"
-  },
   "size-limit": [
     {
       "name": "ESM (gzip)",

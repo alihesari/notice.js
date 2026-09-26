@@ -8,7 +8,7 @@ Search the [issues](https://github.com/alihesari/notice.js/issues) and [pull req
 
 ## Setup
 
-You need Node.js 20 or newer.
+You need Node.js 22.19 or newer for the dev tools (see `.nvmrc`). The library itself runs in the browser.
 
 ```bash
 git clone https://github.com/<your-username>/notice.js.git
