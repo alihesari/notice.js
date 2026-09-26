@@ -7,6 +7,11 @@ updates:
     groups:
       dev-dependencies:
         dependency-type: development
+    ignore:
+      # tsup generates .d.ts files through the TypeScript JS API, which TypeScript 7
+      # (the Go port) does not ship yet. Remove this once tsup supports TypeScript 7.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
   - package-ecosystem: github-actions
     directory: /
     schedule:
