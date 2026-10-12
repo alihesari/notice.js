@@ -97,15 +97,15 @@
     }
   ],
   "devDependencies": {
-    "@biomejs/biome": "^2.5.14",
-    "@size-limit/preset-small-lib": "^14.0.1",
-    "@vitest/coverage-v8": "^5.0.2",
+    "@biomejs/biome": "^2.5.15",
+    "@size-limit/preset-small-lib": "^14.2.0",
+    "@vitest/coverage-v8": "^5.0.3",
     "esbuild": "^0.28.2",
-    "happy-dom": "^20.14.5",
-    "publint": "^0.3.24",
+    "happy-dom": "^20.14.6",
+    "publint": "^0.3.25",
     "size-limit": "^14.0.1",
     "tsup": "^8.5.1",
-    "typescript": "~5.9.3",
+    "typescript": "~7.0.2",
     "vitest": "^5.0.2"
   },
   "type": "commonjs"
