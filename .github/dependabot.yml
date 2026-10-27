@@ -7,6 +7,12 @@ updates:
     groups:
       dev-dependencies:
         dependency-type: development
+    ignore:
+      # tsup builds the .d.ts files through the TypeScript JS API, which TypeScript 7
+      # (the Go port) does not ship. tsup 9 still fails with it, even with the
+      # @typescript/typescript6 fallback. Remove this once tsup supports TypeScript 7.
+      - dependency-name: typescript
+        versions: [">=7"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
