@@ -1,6 +1,6 @@
 name: Release
 
-# Runs when a version tag (for example v1.0.0) is pushed.
+# Runs when a version tag (for example v2.0.0) is pushed.
 # Publishing uses npm trusted publishing (OIDC): on npmjs.com, open the package settings,
 # then Trusted Publisher, and add GitHub Actions with repository alihesari/notice.js and
 # workflow release.yml. No long-lived token is needed. Until that is set up, an NPM_TOKEN
@@ -32,6 +32,13 @@ jobs:
           version="$(node -p "require('./package.json').version")"
           if [ "v$version" != "$GITHUB_REF_NAME" ]; then
             echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $version"
+            exit 1
+          fi
+      - name: Check version is not already on npm
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if npm view "notice.js@$version" version >/dev/null 2>&1; then
+            echo "::error::notice.js@$version is already on npm, and npm never allows a version to be reused. Bump the version in package.json."
             exit 1
           fi
       - run: npm ci
