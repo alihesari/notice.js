@@ -5,9 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2026-09-26
+## [2.0.0] - 2026-10-27
 
 A full rewrite in TypeScript. The API stays familiar (`new NoticeJs(options).show()`), but a few defaults changed to fix long-standing bugs, so read the migration guide below.
+
+This release is 2.0.0, not 1.0.0, because `notice.js@1.0.0` and `1.1.0` were already published to npm in 2018 from an earlier codebase. npm never allows a version number to be reused, and a 1.x release would also be picked up by projects still pinned to `^1` from 2018.
 
 ### Added
 - TypeScript source with bundled type definitions, plus ESM, CommonJS and `<script>` (IIFE) builds with an `exports` map.
@@ -53,24 +55,24 @@ A full rewrite in TypeScript. The API stays familiar (`new NoticeJs(options).sho
 ```js
 // 0.5.x: 50ms per step × 100 steps = 5 seconds
 new NoticeJs({ text: 'Saved', timeout: 50 }).show();
-// 1.0.0: total milliseconds
+// 2.0.0: total milliseconds
 new NoticeJs({ text: 'Saved', timeout: 5000 }).show();
 
 // 0.5.x: text could contain markup
 new NoticeJs({ text: '<b>Saved</b>' }).show();
-// 1.0.0: use html (and a sanitizer for anything user-provided)
+// 2.0.0: use html (and a sanitizer for anything user-provided)
 new NoticeJs({ html: '<b>Saved</b>' }).show();
 
 // 0.5.x
 const element = new NoticeJs({ text: 'Hi' }).show();
-// 1.0.0
+// 2.0.0
 const notice = new NoticeJs({ text: 'Hi' }).show();
 notice.element; // the element
 notice.close();
 
 // 0.5.x
 new NoticeJs({ scroll: { maxHeight: 200 } });
-// 1.0.0
+// 2.0.0
 new NoticeJs({ maxHeight: 200 });
 ```
 
@@ -132,7 +134,7 @@ callbacks: {
 - Progress bar indicator
 - RTL language support
 
-[1.0.0]: https://github.com/alihesari/notice.js/compare/v0.5.0...v1.0.0
+[2.0.0]: https://github.com/alihesari/notice.js/compare/v0.5.0...v2.0.0
 [0.5.0]: https://github.com/alihesari/notice.js/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/alihesari/notice.js/releases/tag/v0.4.0
 

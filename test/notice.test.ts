@@ -235,7 +235,7 @@ describe('timing', () => {
     expect(notice.isVisible).toBe(false);
   });
 
-  it('warns once about pre-1.0 per-step timeouts', () => {
+  it('warns once about pre-2.0 per-step timeouts', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
     new NoticeJs({ timeout: 30 });
     new NoticeJs({ timeout: 50 });

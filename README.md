@@ -33,8 +33,8 @@ NoticeJs.success('Profile saved');
 Or use a `<script>` tag. It exposes `window.NoticeJs`:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notice.js@1/dist/noticejs.css">
-<script src="https://cdn.jsdelivr.net/npm/notice.js@1/dist/notice.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notice.js@2/dist/noticejs.css">
+<script src="https://cdn.jsdelivr.net/npm/notice.js@2/dist/notice.js"></script>
 ```
 
 ## Usage
@@ -183,7 +183,7 @@ See [`src/noticejs.css`](src/noticejs.css) for the full list. The default colour
 
 ## Upgrading from 0.x
 
-1.0.0 includes breaking changes. The [changelog](CHANGELOG.md#migrating-from-05x) has the full migration guide. In short:
+2.0.0 includes breaking changes. The [changelog](CHANGELOG.md#migrating-from-05x) has the full migration guide. In short:
 
 - `timeout` is now the **total time in milliseconds** (default `3000`). It used to be a per-step delay, where `30` meant 3 seconds. Multiply old values by 100.
 - `text` is plain text. Pass markup through `html` instead.

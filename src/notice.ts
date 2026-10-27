@@ -581,6 +581,6 @@ function warnLegacyTimeout(timeout: number | false): void {
   if (warnedLegacyTimeout || typeof timeout !== 'number' || timeout <= 0 || timeout >= 250) return;
   warnedLegacyTimeout = true;
   console.warn(
-    `[notice.js] Since v1.0.0 \`timeout\` is the total time in milliseconds. ${timeout}ms looks like a pre-1.0 per-step value; multiply it by 100 to keep the old duration.`,
+    `[notice.js] Since v2.0.0 \`timeout\` is the total time in milliseconds. ${timeout}ms looks like a pre-2.0 per-step value; multiply it by 100 to keep the old duration.`,
   );
 }

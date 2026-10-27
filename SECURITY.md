@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Only the latest 1.x release receives security fixes.
+Only the latest 2.x release receives security fixes.
 
 ## Reporting a vulnerability
 
