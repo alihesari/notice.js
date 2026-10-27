@@ -97,16 +97,16 @@
     }
   ],
   "devDependencies": {
-    "@biomejs/biome": "^2.5.14",
-    "@size-limit/preset-small-lib": "^14.0.1",
-    "@vitest/coverage-v8": "^5.0.2",
+    "@biomejs/biome": "^2.6.3",
+    "@size-limit/preset-small-lib": "^14.3.0",
+    "@vitest/coverage-v8": "^5.0.5",
     "esbuild": "^0.28.2",
-    "happy-dom": "^20.14.5",
-    "publint": "^0.3.24",
-    "size-limit": "^14.0.1",
-    "tsup": "^8.5.1",
-    "typescript": "~5.9.3",
-    "vitest": "^5.0.2"
+    "happy-dom": "^21.0.4",
+    "publint": "^0.3.25",
+    "size-limit": "^14.3.0",
+    "tsup": "^9.0.0",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.5"
   },
   "type": "commonjs"
 }
